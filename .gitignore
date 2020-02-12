@@ -21,3 +21,27 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Ignore IDEA project files
+.idea
+*.iml
+out
+gen
+
+# Ignore Maven files
+.mvn
+mvnw
+mvnw.cmd
+HELP.md
+
+# Ignore Jerbel settings files
+/src/main/resources/rebel.xml
+
+# Ignore Database setiings
+/src/main/resources/config/application-dbsettings.yml
+
+# Ignore LayUI
+/src/main/resources/static/layui
+
+# Ignore target folder
+target
