@@ -1,0 +1,10 @@
+## 主配置文件
+
+## 通过导入以下配置文件，方便分开管理
+spring:
+  profiles:
+    active: server, database, freemaker
+
+## 使用日志工具 Log4j2
+logging:
+  config: classpath:config/log4j2-config.xml

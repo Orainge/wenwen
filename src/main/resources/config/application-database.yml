@@ -1,0 +1,9 @@
+## 数据库的配置文件
+## dbsettings 包含数据库的 驱动名/连接地址/用户名/密码，不上传 Github
+spring:
+  profiles:
+    include: dbsettings, druid, mybatis
+  datasource:
+    # 使用 druid 作为数据库连接池
+    name: druidDatasourcee
+    type: com.alibaba.druid.pool.DruidDataSource
