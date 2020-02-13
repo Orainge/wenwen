@@ -40,8 +40,12 @@ HELP.md
 # Ignore Database setiings
 /src/main/resources/config/application-dbsettings.yml
 
-# Ignore LayUI
-/src/main/resources/static/layui
+# Ignore static files
+/src/main/resources/html/css
+/src/main/resources/html/js
+/src/main/resources/html/layui
+# to edit html file in VS code,these files must move into folder html
+/src/main/resources/static
 
 # Ignore target folder
 target
