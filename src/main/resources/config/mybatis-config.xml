@@ -8,5 +8,8 @@
         <typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap"/>
         <typeAlias alias="ArrayList" type="java.util.ArrayList"/>
         <typeAlias alias="LinkedList" type="java.util.LinkedList"/>
+
+        <!-- 自定义的实体类 -->
+        <typeAlias alias="User" type="com.orainge.wenwen.model.User"/>
     </typeAliases>
 </configuration>
