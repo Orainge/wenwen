@@ -49,3 +49,6 @@ HELP.md
 
 # Ignore target folder
 target
+
+# Ignore test files
+/src/test
