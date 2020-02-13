@@ -1,9 +1,9 @@
 ## 模板引擎 Freemaker 的配置
 spring:
-  mvc:
-    static-path-pattern: /static/** # 用于访问静态文件 css,js 等
   freemarker:
     charset: UTF-8 # 编码格式
     suffix: .html # 后缀名(必改)
     template-loader-path: classpath:/html # 模板加载路径 (可以理解为网页页面)
     content-type: text/html; charset=utf-8
+    settings:
+      classic_compatible: true

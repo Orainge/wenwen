@@ -2,4 +2,4 @@
 mybatis:
   type-aliases-package: com.orainge.model # 数据表实体类所在的包
   config-location: classpath:config/mybatis-config.xml
-  mapper-locations: classpath:config/mapper/*.xml # 或者是 mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+  mapper-locations: classpath:config/mapper/*Mapper.xml
