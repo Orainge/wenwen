@@ -11,8 +11,9 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     UserMapper userMapper;
 
+    @Override
     // 通过账号查询用户信息
     public User userLogin(String username) {
-        return userMapper.findUserByUsername(username);
+        return null;
     }
 }
