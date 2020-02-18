@@ -1,30 +1,30 @@
-package com.orainge.wenwen.model;
+package com.orainge.wenwen.mybatis.entity;
 
 import java.util.Date;
 
-public class AnswerComment {
-    private Integer commentId;
+public class Answer {
+    private Integer answerId;
 
     private Date createTime;
 
-    private Integer answerId;
+    private Integer questionId;
 
     private Integer userId;
-
-    private Integer atUserId;
 
     private Integer countLike;
 
     private Integer countUnlike;
 
+    private Integer anonymous;
+
     private String content;
 
-    public Integer getCommentId() {
-        return commentId;
+    public Integer getAnswerId() {
+        return answerId;
     }
 
-    public void setCommentId(Integer commentId) {
-        this.commentId = commentId;
+    public void setAnswerId(Integer answerId) {
+        this.answerId = answerId;
     }
 
     public Date getCreateTime() {
@@ -35,12 +35,12 @@ public class AnswerComment {
         this.createTime = createTime;
     }
 
-    public Integer getAnswerId() {
-        return answerId;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setAnswerId(Integer answerId) {
-        this.answerId = answerId;
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
     }
 
     public Integer getUserId() {
@@ -49,14 +49,6 @@ public class AnswerComment {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getAtUserId() {
-        return atUserId;
-    }
-
-    public void setAtUserId(Integer atUserId) {
-        this.atUserId = atUserId;
     }
 
     public Integer getCountLike() {
@@ -73,6 +65,14 @@ public class AnswerComment {
 
     public void setCountUnlike(Integer countUnlike) {
         this.countUnlike = countUnlike;
+    }
+
+    public Integer getAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(Integer anonymous) {
+        this.anonymous = anonymous;
     }
 
     public String getContent() {

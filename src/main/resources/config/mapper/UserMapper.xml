@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.orainge.wenwen.mapper.AnswerCommentMapper">
+<mapper namespace="com.orainge.wenwen.mybatis.mapper.AnswerCommentMapper">
+    <resultMap id="UserLoginInfo" type="java.util.HashMap">
+        <result column="username" property="username" javaType="STRING" jdbcType="VARCHAR"/>
+        <result column="email" property="email" javaType="STRING" jdbcType="VARCHAR"/>
+        <result column="password" property="password" javaType="STRING" jdbcType="VARCHAR"/>
+        <result column="user_status" property="userStatus" javaType="INT" jdbcType="INTEGER"/>
+    </resultMap>
 
+    <!--自定义返回结果 是 resultMap 不是 resultType ！ -->
+    <select id="getUserLoginInfo" parameterType="String" resultMap="UserLoginInfo">
+        select username, email, password, user_status from user where username = #{principal} or email = #{principal}
+    </select>
 </mapper>

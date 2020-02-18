@@ -35,7 +35,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, defaultCacheConfig);
 
         // 设置可以反序列化的白名单（必须）
-        ParserConfig.getGlobalInstance().addAccept("com.orainge.wenwen.model.");
+        ParserConfig.getGlobalInstance().addAccept("com.orainge.wenwen.mybatis.entity.");
         return cacheManager;
     }
 

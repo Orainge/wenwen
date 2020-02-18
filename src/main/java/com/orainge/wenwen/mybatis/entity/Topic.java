@@ -1,4 +1,4 @@
-package com.orainge.wenwen.model;
+package com.orainge.wenwen.mybatis.entity;
 
 public class Topic {
     private Integer topicId;

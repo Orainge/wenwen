@@ -1,7 +1,6 @@
 package com.orainge.wenwen;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.serializer.ValueFilter;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.http.MediaType;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -19,10 +17,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 设置静态文件访问路径
-        // 第一个方法设置访问路径前缀，第二个方法设置资源路径
-        // 暂时更改静态文件目录，方便在 VS code 写前端页面
-        // registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/html/**").addResourceLocations("classpath:/html/");
+        // 第一个为从根开始的前缀，例如 /static/** 表示在访问文件时 http://根地址/static/文件具体路径
+        // 第二个方法设置资源路径
+        // TODO 暂时更改静态文件目录，方便在 VS code 写前端页面 registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/html/static/");
     }
 
     @Override

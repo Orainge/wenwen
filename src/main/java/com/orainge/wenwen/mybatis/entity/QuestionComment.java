@@ -1,9 +1,9 @@
-package com.orainge.wenwen.model;
+package com.orainge.wenwen.mybatis.entity;
 
 import java.util.Date;
 
-public class Answer {
-    private Integer answerId;
+public class QuestionComment {
+    private Integer commentId;
 
     private Date createTime;
 
@@ -11,20 +11,18 @@ public class Answer {
 
     private Integer userId;
 
+    private Integer atUserId;
+
     private Integer countLike;
-
-    private Integer countUnlike;
-
-    private Integer anonymous;
 
     private String content;
 
-    public Integer getAnswerId() {
-        return answerId;
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public void setAnswerId(Integer answerId) {
-        this.answerId = answerId;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public Date getCreateTime() {
@@ -51,28 +49,20 @@ public class Answer {
         this.userId = userId;
     }
 
+    public Integer getAtUserId() {
+        return atUserId;
+    }
+
+    public void setAtUserId(Integer atUserId) {
+        this.atUserId = atUserId;
+    }
+
     public Integer getCountLike() {
         return countLike;
     }
 
     public void setCountLike(Integer countLike) {
         this.countLike = countLike;
-    }
-
-    public Integer getCountUnlike() {
-        return countUnlike;
-    }
-
-    public void setCountUnlike(Integer countUnlike) {
-        this.countUnlike = countUnlike;
-    }
-
-    public Integer getAnonymous() {
-        return anonymous;
-    }
-
-    public void setAnonymous(Integer anonymous) {
-        this.anonymous = anonymous;
     }
 
     public String getContent() {

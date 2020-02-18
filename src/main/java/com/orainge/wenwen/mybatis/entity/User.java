@@ -1,19 +1,21 @@
-package com.orainge.wenwen.model;
+package com.orainge.wenwen.mybatis.entity;
 
 import java.util.Date;
 
 public class User {
     private Integer userId;
 
+    private String email;
+
     private String username;
 
     private String password;
 
-    private String email;
-
     private String avatarUrl;
 
     private Date createTime;
+
+    private Date lastLoginTime;
 
     private Integer userStatus;
 
@@ -49,6 +51,14 @@ public class User {
         this.userId = userId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
     public String getUsername() {
         return username;
     }
@@ -65,14 +75,6 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
     public String getAvatarUrl() {
         return avatarUrl;
     }
@@ -87,6 +89,14 @@ public class User {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
     public Integer getUserStatus() {

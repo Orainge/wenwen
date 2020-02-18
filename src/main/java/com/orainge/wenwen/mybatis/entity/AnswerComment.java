@@ -1,19 +1,21 @@
-package com.orainge.wenwen.model;
+package com.orainge.wenwen.mybatis.entity;
 
 import java.util.Date;
 
-public class QuestionComment {
+public class AnswerComment {
     private Integer commentId;
 
     private Date createTime;
 
-    private Integer questionId;
+    private Integer answerId;
 
     private Integer userId;
 
     private Integer atUserId;
 
     private Integer countLike;
+
+    private Integer countUnlike;
 
     private String content;
 
@@ -33,12 +35,12 @@ public class QuestionComment {
         this.createTime = createTime;
     }
 
-    public Integer getQuestionId() {
-        return questionId;
+    public Integer getAnswerId() {
+        return answerId;
     }
 
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
+    public void setAnswerId(Integer answerId) {
+        this.answerId = answerId;
     }
 
     public Integer getUserId() {
@@ -63,6 +65,14 @@ public class QuestionComment {
 
     public void setCountLike(Integer countLike) {
         this.countLike = countLike;
+    }
+
+    public Integer getCountUnlike() {
+        return countUnlike;
+    }
+
+    public void setCountUnlike(Integer countUnlike) {
+        this.countUnlike = countUnlike;
     }
 
     public String getContent() {
