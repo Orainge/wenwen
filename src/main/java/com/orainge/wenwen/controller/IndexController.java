@@ -9,4 +9,10 @@ public class IndexController {
     public String index() {
         return "index";
     }
+
+    @RequestMapping("/dot")
+    public String dotAndLine(){
+        return "dot_and_line";
+    }
+
 }

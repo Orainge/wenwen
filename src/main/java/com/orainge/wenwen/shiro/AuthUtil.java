@@ -8,20 +8,41 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthUtil {
     // 错误提示 状态码对应数组的下标
-    private final String[] resultTips = {"登录成功", "用户名或密码不正确“”“”“", "用户名或密码错误次数过多", "账户不存在", "内部错误"};
+    private String[] loginMessage = {"登录成功", "账户或密码错误", "用户名或密码错误次数过多", "账户不存在", "内部错误"};
+    private String[] logoutMessage = {"退出登录成功", "内部错误"};
 
-    public String getResultTips(int resultId) {
-        return (resultId >= 0 && resultId < resultTips.length) ? resultTips[resultId] : null;
+    /**
+     * 根据登录返回的 code 获取相应的提示
+     *
+     * @param loginResultCode 登录返回的状态码
+     * @return 相应的提示
+     */
+    public String getLoginMessage(int loginResultCode) {
+        return (loginResultCode >= 0 && loginResultCode < loginMessage.length) ? loginMessage[loginResultCode] : null;
     }
 
-    public int auth(String principal, String password) {
-        return auth(principal, password, null);
+    /**
+     * 根据退出登录返回的 code 获取相应的提示
+     *
+     * @param logoutResultCode 退出登录返回的状态码
+     * @return 相应的提示
+     */
+    public String getLogoutMessage(int logoutResultCode) {
+        return (logoutResultCode >= 0 && logoutResultCode < logoutMessage.length) ? logoutMessage[logoutResultCode] : null;
     }
 
-    public int auth(String principal, String password, String[] logParameters) {
+    /**
+     * 执行 登录 操作
+     *
+     * @param principal 用户名或邮箱(两者可以同时传入)
+     * @param password  密码
+     * @return 登录状态码
+     */
+    public int login(String principal, String password, boolean rememberMe) {
         int result = -1;
         Subject subject = SecurityUtils.getSubject(); // 从SecurityUtils里边创建一个 subject
-        UsernamePasswordToken token = new UsernamePasswordToken(principal, password); // 在认证提交前准备 token（令牌）
+        // TODO 踢出已登录的用户
+        UsernamePasswordToken token = new UsernamePasswordToken(principal, password, rememberMe); // 在认证提交前准备 token（令牌）
 
         /* 执行认证登陆 */
         try {
@@ -47,11 +68,28 @@ public class AuthUtil {
                 token.clear();
             }
         }
-
-        // TODO 在日志管理器输出登录结果，具体写入登陆日期、登录时间等等。
-//        String resultTip = Authorization.resultTips[result]; // 状态码对应的字符
         return result;
     }
 
+    /**
+     * 执行 退出登录 操作
+     *
+     * @return 退出登录状态码
+     */
+    public int logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        int status = 0;
+        return status;
+    }
 
+    /**
+     * 检查用户是否已经登录
+     *
+     * @return 是否登录
+     */
+    public boolean isAuthenticated() {
+        Subject subject = SecurityUtils.getSubject();
+        return subject.isAuthenticated();
+    }
 }

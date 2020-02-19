@@ -1,0 +1,147 @@
+body {
+    background: #ffffff url(/static/pic/login_bg.png) repeat;
+    font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti;
+}
+
+.main {
+    width: 600px;
+    height: 750px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    /* background-color: grey; */
+}
+
+.main-title {
+    color: rgb(0, 49, 79);
+    text-align: center;
+    font-size: 70px;
+    font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti;
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+}
+
+.main-box {
+    width: 400px;
+    height: 350px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 1em;
+    box-shadow: 3px 3px 6px #666;
+}
+
+.main-box-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* background-color: gray; */
+}
+
+.main-box-tab-item {
+    /* 鼠标显示为链接样式 */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    width: 60px;
+    height: 30px;
+    color: rgb(0, 49, 79);
+    font-weight: 1400;
+    font-size: 20px;
+}
+
+#main-box-tab-0 {
+    border-color: rgb(0, 49, 79);
+    border-bottom-style: solid;
+}
+
+#main-box-tab-1 {
+    border-color: white;
+    border-bottom-style: solid;
+    margin-left: 50px;
+}
+
+.main-box-input-div {
+    width: 300px;
+    height: 240px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    /* background-color: rgb(154, 192, 154); */
+}
+
+.main-box-input {
+    width: 100%;
+    height: 100%;
+}
+
+/* 输入框 */
+.main-box-input-box {
+    width: 300px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.main-box-input-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    /* background-color: red; */
+}
+
+/* 注册/登录 按钮 */
+.main-box-input-button {
+    width: 130px;
+    height: 50px;
+    font-size: 17px;
+}
+
+/* 登录界面 */
+.main-box-input-login {
+    width: 300px;
+    height: 270px;
+}
+
+.main-box-input-login-remember_me {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* padding-bottom: 10px; */
+    /* background-color: salmon; */
+}
+
+#login-input-remember_me {
+    width: 20px;
+    height: 20px;
+}
+
+/* 注册界面 */
+.main-box-input-register {
+    width: 300px;
+    height: 270px;
+    display: none;
+}
+
+.footer {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
