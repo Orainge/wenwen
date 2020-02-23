@@ -44,6 +44,9 @@ HELP.md
 /src/main/resources/config/application-mail.yml
 /src/main/java/com/orainge/wenwen/util/EmailUtil.java
 
+# Ignore WebsiteSettings setiings
+/src/main/java/com/orainge/wenwen/util/WebsiteSettings.java
+
 # to edit html file in VS code, these files must move into html folder
 /src/main/resources/html/static/layui
 
