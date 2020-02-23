@@ -1,8 +1,6 @@
 package com.orainge.wenwen.controller;
 
-import com.alibaba.druid.util.StringUtils;
 import com.orainge.wenwen.service.AuthService;
-import com.orainge.wenwen.util.ControllerHelper;
 import com.orainge.wenwen.util.NullParmatersException;
 import com.orainge.wenwen.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
