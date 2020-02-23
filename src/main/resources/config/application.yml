@@ -3,7 +3,7 @@
 ## 通过导入以下配置文件，方便分开管理
 spring:
   profiles:
-    active: server, database, freemaker
+    active: server, database, freemaker, mail
     #main:
     # allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
 

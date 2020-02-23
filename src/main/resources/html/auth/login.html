@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <title>问问社区 | 登录</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8">
+    </script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/login.css" media="all">
+    <style type="text/css">
+        body {
+            background: #ffffff url(/static/img/bg.png) repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="main-title">问问社区</div>
+        <div class="main-description">与他人分享你的知识、经验和见解</div>
+        <div class="main-box">
+            <div class="main-box-tab">
+                <div id="main-box-tab-0" class="main-box-tab-item" onclick="tabSwitch(0)">登录</div>
+                <div id="main-box-tab-1" class="main-box-tab-item" onclick="tabSwitch(1)">注册</div>
+            </div>
+            <div class="main-box-input-div">
+                <div id="main-box-input-0" class="main-box-input-login">
+                    <!-- 登录框 -->
+                    <div class="main-box-input-box-div">
+                        <input class="layui-input main-box-input-box-login" type="text" name="principal"
+                            id="login-input-principal" maxlength="128" placeholder="用户名/邮箱">
+                        <input class="layui-input main-box-input-box-login" type="password" name="password"
+                            id="login-input-password" maxlength="16" placeholder="密码">
+                    </div>
+                    <div class="main-box-input-login-remember_me">
+                        <div class="layui-form">
+                            <!-- <label class="layui-form-label" style="font-size: 17px;">保持登录</label> -->
+                            <input id="login-input-remember_me" type="checkbox" value=""
+                                lay-skin="switch" lay-text="保持登录|保持登录">
+                        </div>
+                    </div>
+                    <div class="main-box-input-tips">
+                        <span id="login-message"></span>
+                    </div>
+                    <div class="main-box-input-button-div">
+                        <div id="login-loading" class="main-box-input-loading">
+                            <img src="/static/img/loading.gif">
+                        </div>
+                        <button id="login-button"
+                            class="main-box-input-button layui-btn layui-btn-normal layui-btn-radius"
+                            type="button">登录</button>
+                    </div>
+                    <div class="main-box-input-option-div">
+                        <div id="login-reset_password">找回密码</div>
+                        <span style="width:30px; text-align: center;">|</span>
+                        <div id="login-resend_email">发送激活链接</div>
+                    </div>
+                </div>
+                <div id="main-box-input-1" class="main-box-input-register">
+                    <!-- 注册框 -->
+                    <div class="main-box-input-box-div">
+                        <input class="layui-input main-box-input-box-register" type="text" name="email"
+                            id="register-input-email" placeholder="邮箱">
+                        <input class="layui-input main-box-input-box-register" type="text" name="username"
+                            id="register-input-username" maxlength="16" placeholder="用户名">
+                        <input class="layui-input main-box-input-box-register" type="password" name="password"
+                            id="register-input-password" maxlength="16" placeholder="请输入密码">
+                        <input class="layui-input main-box-input-box-register" type="password" name="password"
+                            id="register-input-re_password" maxlength="16" placeholder="确认密码">
+                    </div>
+                    <div class="main-box-input-tips">
+                        <span id="register-message" style="padding-top: 7px;"></span>
+                    </div>
+                    <div class="main-box-input-button-div">
+                        <div id="register-loading" class="main-box-input-loading">
+                            <img src="/static/img/loading.gif">
+                        </div>
+                        <button id="register-button"
+                            class="main-box-input-button layui-btn layui-btn-normal layui-btn-radius"
+                            type="button">注册</button>
+                        <span id="register-success-message">
+                            注册成功，请前往邮箱收件箱根据提示激活账户，链接10分钟内有效
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; All Rights Reserved. <a href="/">问问社区</a> 2020
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/login.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,5 @@
 package com.orainge.wenwen.shiro;
 
-import com.alibaba.fastjson.JSON;
 import com.orainge.wenwen.mybatis.entity.User;
 import com.orainge.wenwen.mybatis.mapper.UserMapper;
 import org.apache.shiro.authc.*;
@@ -25,7 +24,7 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String principal = token.getPrincipal().toString();
         String password = new String((char[]) token.getCredentials()); // 传过来的密码已经是加了密的
-        User userLoginInfo = userMapper.getUserLoginInfoByPricipal(principal);
+        User userLoginInfo = userMapper.getUserAuthInfoByPricipal(principal);
 
         if (userLoginInfo == null) {
             /* 用户不存在 */
@@ -33,6 +32,12 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         /* 用户存在，开始验证 */
+        /* 检查账户是否被激活 */
+        if (userLoginInfo.getUserStatus() == 2) {
+            // 账户未被激活
+            throw new LockedAccountException();
+        }
+
         String dbPassword = userLoginInfo.getPassword();
         if (!password.equals(dbPassword)) {
             // 用户名或密码错误

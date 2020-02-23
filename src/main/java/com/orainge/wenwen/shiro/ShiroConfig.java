@@ -15,7 +15,7 @@ public class ShiroConfig {
     /* 用户未登录时跳转到的登陆页面 */
     private final String loginUrl = "/login";
     /* anon: 可以匿名访问的 URL */
-    private final String[] anonUrl = new String[]{"/static/**","/auth"};
+    private final String[] anonUrl = new String[]{"/favicon.ico", "/static/**", "/login", "/apiSendActive", "/sendResetPassword", "/auth/**"};
     /* authc: 必须认证通过才可以访问的 URL */
     private final String[] authcUrl = new String[]{};
 

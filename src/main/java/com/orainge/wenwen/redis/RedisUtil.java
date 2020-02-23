@@ -1,6 +1,5 @@
 package com.orainge.wenwen.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +16,6 @@ import java.util.concurrent.TimeUnit;
 public final class RedisUtil {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-
-    private RedisUtil() {
-    }
-
     /**
      * 设置有效时间
      *
@@ -100,6 +95,8 @@ public final class RedisUtil {
      */
     public void set(final String key, final Object value, final long timeout, final TimeUnit unit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
+
+
     }
 
     /**

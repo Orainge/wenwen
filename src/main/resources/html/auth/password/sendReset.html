@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <title>问问社区 | 重置密码</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8">
+    </script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/auth/sendReset.css" media="all">
+</head>
+
+<body>
+    <div class="main">
+        <div class="main-title">请输入邮箱</div>
+        <div class="main-email-div">
+            <input id="main-email" class="layui-input main-email" placeholder="邮箱地址">
+        </div>
+        <div class="main-tips-div">
+            <span id="main-tips"></span>
+        </div>
+        <div class="main-button-div">
+            <img id="main-loading" src="/static/img/loading.gif">
+            <button id="main-button" class="main-button layui-btn layui-btn-normal layui-btn-radius"
+                type="button">发送重置链接</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/auth/sendReset.js"></script>
+</body>
+
+</html>

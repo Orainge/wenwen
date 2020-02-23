@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <title>问问社区 | 账户激活</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8">
+    </script>
+    <script src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/auth/actitave.css" media="all">
+    <style type="text/css">
+        body{
+            background: #ffffff url(/static/img/bg.png) repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="main-title">问问社区</div>
+        <div class="main-box-div">
+            <img id="main-box-loading" src="/static/img/loading.gif">
+            <div id="main-box" class="main-box">
+                <!-- 上半部分提示框 -->
+                <div class="main-box-tips">
+                    <div id="main-box-tips-success">
+                        <!-- 激活成功的提示 -->
+                        <div class="main-box-tips-success-title">您的账户</div>
+                        <span class="main-box-tips-success-email">${response.data}</span>
+                        <div class="main-box-tips-success-message">已成功激活</div>
+                    </div>
+                    <div id="main-box-tips-fail">
+                        <!-- 激活失败的提示 -->
+                        <div class="main-box-tips-fail-title">激活失败</div>
+                        <span class="main-box-tips-fail-message">${response.message}</span>
+                    </div>
+                </div>
+
+                <!-- 按钮 -->
+                <div class="main-box-button-div">
+                    <button id="main-box-button" class="main-box-button layui-btn layui-btn-normal layui-btn-radius"
+                        type="button"></button>
+                </div>
+
+            </div>
+        </div>
+        <div class="footer">
+            &copy; All Rights Reserved. <a href="/">问问社区</a> 2020
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var code = '${response.code}';
+            if (code == 0) {
+                // 激活成功
+                $("#main-box-button").text("去登录")
+                $("#main-box-button").on("click", function () {
+                    window.location.href = "/login"
+                })
+                document.getElementById("main-box-tips-success").style.display = "block"
+                document.getElementById("main-box-button").style.display = "block"
+                document.getElementById("main-box-loading").style.display = "none"
+                document.getElementById("main-box").style.display = "block"
+            } else {
+                // 激活失败
+                $("#main-box-button").text("返回首页")
+                $("#main-box-button").on("click", function () {
+                    window.location.href = "/"
+                })
+                document.getElementById("main-box-tips-fail").style.display = "block"
+                document.getElementById("main-box-button").style.display = "block"
+                document.getElementById("main-box-loading").style.display = "none"
+                document.getElementById("main-box").style.display = "block"
+            }
+        });
+    </script>
+</body>
+
+</html>

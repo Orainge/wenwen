@@ -1,0 +1,149 @@
+body {
+    font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti;
+}
+
+.main {
+    width: 600px;
+    height: 750px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.main-title {
+    color: rgb(0, 49, 79);
+    text-align: center;
+    font-size: 70px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.main-box-div {
+    width: 400px;
+    height: 350px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 1em;
+    box-shadow: 3px 3px 6px #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-box {
+    width: 330px;
+    height: 290px;
+    display: none;
+}
+
+.main-box-reset,
+#main-box-message {
+    display: none;
+    width: 100%;
+    height: 220px;
+}
+
+.main-box-reset-title,
+#main-box-message-title {
+    width: 100%;
+    height: 75px;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 29px;
+    font-weight: 900;
+    /* background-color: red; */
+}
+#main-box-reset-email{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    /* padding-top: -15px; */
+    font-size: 18px;
+    /* background-color: olive; */
+}
+
+.main-box-reset-input-div {
+    width: 210px;
+    height: 70px;
+    padding: 5px 60px 5px 60px;
+    /* background-color: green; */
+}
+
+.main-box-reset-input {
+    width: 100%;
+    height: 25px;
+    font-size: 15px;
+    display: block;
+    text-align: center;
+}
+
+#main-box-reset-tips {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 25px;
+    padding-top: 5px;
+    color: rgb(238, 13, 13);
+    font-size: 16px;
+    /* background-color: gray; */
+}
+
+.main-box-reset-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+}
+
+#main-box-reset-loading{
+    display: none;
+}
+
+#main-box-reset-button {
+    width: 100px;
+    font-size: 16px;
+}
+
+/* 密码成功/失败提示 */
+#main-box-message-message {
+    text-align: center;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    margin-top: -10px;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.main-box-message-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+}
+
+#main-box-message-button {
+    width: 100px;
+    font-size: 16px;
+}
+
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.footer a {
+    text-decoration: underline;
+}

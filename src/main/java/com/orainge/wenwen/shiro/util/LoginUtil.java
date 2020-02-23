@@ -1,45 +1,26 @@
-package com.orainge.wenwen.shiro;
+package com.orainge.wenwen.shiro.util;
 
+import com.orainge.wenwen.util.Response;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthUtil {
+public class LoginUtil {
     // 错误提示 状态码对应数组的下标
-    private String[] loginMessage = {"登录成功", "账户或密码错误", "用户名或密码错误次数过多", "账户不存在", "内部错误"};
-    private String[] logoutMessage = {"退出登录成功", "内部错误"};
-
-    /**
-     * 根据登录返回的 code 获取相应的提示
-     *
-     * @param loginResultCode 登录返回的状态码
-     * @return 相应的提示
-     */
-    public String getLoginMessage(int loginResultCode) {
-        return (loginResultCode >= 0 && loginResultCode < loginMessage.length) ? loginMessage[loginResultCode] : null;
-    }
-
-    /**
-     * 根据退出登录返回的 code 获取相应的提示
-     *
-     * @param logoutResultCode 退出登录返回的状态码
-     * @return 相应的提示
-     */
-    public String getLogoutMessage(int logoutResultCode) {
-        return (logoutResultCode >= 0 && logoutResultCode < logoutMessage.length) ? logoutMessage[logoutResultCode] : null;
-    }
+    private final String[] loginMessage = {"登录成功", "连接错误，请稍后再试", "用户名或密码错误", "用户名或密码错误次数过多", "用户名或密码错误", "账户未激活，请查看邮箱根据提示激活"};
+    private final String[] logoutMessage = {"退出登录成功", "连接错误，请稍后再试"};
 
     /**
      * 执行 登录 操作
      *
      * @param principal 用户名或邮箱(两者可以同时传入)
      * @param password  密码
-     * @return 登录状态码
+     * @return 登录状态信息
      */
-    public int login(String principal, String password, boolean rememberMe) {
-        int result = -1;
+    public Response login(String principal, String password, boolean rememberMe) {
+        int code = 5;
         Subject subject = SecurityUtils.getSubject(); // 从SecurityUtils里边创建一个 subject
         // TODO 踢出已登录的用户
         UsernamePasswordToken token = new UsernamePasswordToken(principal, password, rememberMe); // 在认证提交前准备 token（令牌）
@@ -49,26 +30,30 @@ public class AuthUtil {
             subject.login(token);
         } catch (IncorrectCredentialsException ice) {
             /* 不正确的凭证 */
-            result = 1;
+            code = 2;
         } catch (ExcessiveAttemptsException eae) {
             /* 认证次数超过限制 */
-            result = 2;
+            code = 3;
         } catch (UnknownAccountException uae) {
             /* 未知的账号 */
-            result = 3;
+            /* 账号不存在，但是提示还是用户名或密码错误 */
+            code = 4;
+        } catch (LockedAccountException lae) {
+            /* 账号被锁定 */
+            code = 5;
         } catch (Exception e) {
             /* 其他错误 */
-            result = 4;
+            code = 1;
         } finally {
             if (subject.isAuthenticated()) {
                 /* 登录成功 */
-                result = 0;
+                code = 0;
             } else {
                 /* 登录失败 */
                 token.clear();
             }
         }
-        return result;
+        return new Response(code, loginMessage[code]);
     }
 
     /**
@@ -76,11 +61,15 @@ public class AuthUtil {
      *
      * @return 退出登录状态码
      */
-    public int logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        int status = 0;
-        return status;
+    public Response logout() {
+        int code = 0;
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            subject.logout();
+        } catch (Exception e) {
+            code = 1;
+        }
+        return new Response(code, logoutMessage[code]);
     }
 
     /**

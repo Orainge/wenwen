@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <title>问问社区 | 重置密码</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8">
+    </script>
+    <script src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/auth/reset.css" media="all">
+    <style type="text/css">
+        body {
+            background: #ffffff url(/static/img/bg.png) repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="main-title">问问社区</div>
+        <div class="main-box-div">
+            <img id="main-box-loading" src="/static/img/loading.gif">
+            <div id="main-box" class="main-box">
+                <!-- 重置密码框 -->
+                <div id="main-box-reset" class="main-box-reset">
+                    <div class="main-box-reset-title">重置密码</div>
+                    <span id="main-box-reset-email"></span>
+                    <div class="main-box-reset-input-div">
+                        <input id="main-box-reset-input-password" class="main-box-reset-input" maxlength="16"
+                            type="password" placeholder="请输入新的密码">
+                        <div style="height: 10px;"></div>
+                        <input id="main-box-reset-input-re_password" class="main-box-reset-input" maxlength="16"
+                            type="password" placeholder="确认新密码">
+                    </div>
+                    <span id="main-box-reset-tips"></span>
+                    <div class="main-box-reset-button-div">
+                        <div id="main-box-reset-loading">
+                            <img src="/static/img/loading.gif">
+                        </div>
+                        <button id="main-box-reset-button" class="layui-btn layui-btn-normal layui-btn-radius"
+                            type="button">重置</button>
+                    </div>
+                </div>
+                <!-- 成功/错误 提示 -->
+                <div id="main-box-message">
+                    <span id="main-box-message-title"></span>
+                    <span id="main-box-message-message"></span>
+                    <div class="main-box-message-button-div">
+                        <button id="main-box-message-button" class="layui-btn layui-btn-normal layui-btn-radius"
+                            type="button">返回首页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; All Rights Reserved. <a href="/">问问社区</a> 2020
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            tokenIsValid('${response.code}', '${response.message}', '${response.data.email}', '${response.data.token}')
+        });
+    </script>
+    <script type="text/javascript" src="/static/js/auth/reset.js" charset="utf-8">
+    </script>
+</body>
+
+</html>
