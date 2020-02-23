@@ -53,9 +53,7 @@ public class PasswordUtil {
                 hPuts.put("email", email);
                 redisUtil.hPutAll(redisKey, hPuts);
                 redisUtil.expire(redisKey, 10, TimeUnit.MINUTES);
-                if (emailUtil.sendResetPasswordEmail(email, encodeToken).getCode() != 0) {
-                    throw new Exception("发送邮件时发生错误");
-                }
+                emailUtil.sendResetPasswordEmail(email, encodeToken);
             }
         } catch (Exception e) {
             e.printStackTrace();

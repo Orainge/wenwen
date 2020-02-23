@@ -146,9 +146,7 @@ public class RegisterUtil {
                 hPuts.put("email", email);
                 redisUtil.hPutAll(redisKey, hPuts);
                 redisUtil.expire(redisKey, 10, TimeUnit.MINUTES);
-                if (emailUtil.sendRegisterEmail(email, encodeToken).getCode() != 0) {
-                    throw new Exception("发送邮件时发生错误");
-                }
+                emailUtil.sendActivateEmail(email, encodeToken);
             }
         } catch (Exception e) {
             e.printStackTrace();
