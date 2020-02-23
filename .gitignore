@@ -42,7 +42,6 @@ HELP.md
 
 # Ignore Mail setiings
 /src/main/resources/config/application-mail.yml
-/src/main/java/com/orainge/wenwen/util/EmailUtil.java
 
 # Ignore WebsiteSettings setiings
 /src/main/java/com/orainge/wenwen/util/WebsiteSettings.java
