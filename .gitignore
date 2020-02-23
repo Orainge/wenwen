@@ -40,6 +40,10 @@ HELP.md
 # Ignore Database setiings
 /src/main/resources/config/application-dbsettings.yml
 
+# Ignore Mail setiings
+/src/main/resources/config/application-mail.yml
+/src/main/java/com/orainge/wenwen/util/EmailUtil.java
+
 # to edit html file in VS code, these files must move into html folder
 /src/main/resources/html/static/layui
 
