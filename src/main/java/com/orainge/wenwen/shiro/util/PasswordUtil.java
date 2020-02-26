@@ -17,9 +17,9 @@ public class PasswordUtil {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    RedisUtil redisUtil;
-    @Autowired
     EmailUtil emailUtil;
+    @Autowired
+    RedisUtil redisUtil;
 
     // 错误提示 状态码对应数组的下标
     private final String[] sendResetPasswordMessage = {"密码重置链接发送成功，请注意查收", "连接错误，请稍后再试", "用户不存在", "用户还未激活，请先激活后再试"};
@@ -48,11 +48,10 @@ public class PasswordUtil {
                 String encodeToken = tokens[2];
                 String redisKey = resetPasswordPrefix + encodeEmail;
 
-                Map<String, Object> hPuts = new HashMap<String, Object>();
+                Map<String, String> hPuts = new HashMap<String, String>();
                 hPuts.put("token", originalToken);
                 hPuts.put("email", email);
-                redisUtil.hPutAll(redisKey, hPuts);
-                redisUtil.expire(redisKey, 10, TimeUnit.MINUTES);
+                redisUtil.hset(redisKey, hPuts, 10 * 60);
                 emailUtil.sendResetPasswordEmail(email, encodeToken);
             }
         } catch (Exception e) {
@@ -79,18 +78,14 @@ public class PasswordUtil {
                 String originalToken = tokens[1];
                 String redisKey = resetPasswordPrefix + encodeEmail;
 
-                Collection<Object> hGets = new HashSet<Object>();
-                hGets.add("email");
-                hGets.add("token");
-                List<Object> redisTokenObj = redisUtil.hMultiGet(redisKey, hGets);
-
-                if (redisTokenObj.get(0) == null) {
+                Map<String, String> redisTokenObj = redisUtil.hgetAll(redisKey);
+                if (redisTokenObj == null || redisTokenObj.isEmpty()) {
                     // 说明这个账户没申请过重置密码链接
                     code = 2;
                 } else {
                     // 说明这个账户申请过重置密码链接
-                    email = redisTokenObj.get(0).toString();
-                    String redisToken = redisTokenObj.get(1).toString();
+                    email = redisTokenObj.get("email");
+                    String redisToken = redisTokenObj.get("token");
                     if (!StringUtils.equals(redisToken, originalToken)) {
                         // token错误，激活链接无效
                         code = 2;

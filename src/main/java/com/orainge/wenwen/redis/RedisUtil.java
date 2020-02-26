@@ -1,232 +1,532 @@
 package com.orainge.wenwen.redis;
 
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
-/**
- * Redis 工具类
- */
 @Component
-public final class RedisUtil {
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+public class RedisUtil {
+
+    @Autowired
+    private JedisPool jedisPool;
+
+    private RedisUtil() {
+    }
+
+    public String get(String key) {
+        Jedis jds = null;
+        String result = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            result = jds.get(key);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
+    }
+
+    public void del(String... key) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            jds.del(key);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+    }
+
+    public void hset(String key, Map<String, String> hash, int seconds) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            for (Map.Entry<String, String> entry : hash.entrySet()) {
+                Map<String, String> temp = new HashMap<String, String>();
+                temp.put(entry.getKey(), entry.getValue());
+                jds.hset(key, temp);
+            }
+            jds.expire(key, seconds);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+    }
+
+    public void hset(String key, Map<String, String> hash) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            for (Map.Entry<String, String> entry : hash.entrySet()) {
+                Map<String, String> temp = new HashMap<String, String>();
+                temp.put(entry.getKey(), entry.getValue());
+                jds.hset(key, temp);
+            }
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+    }
+
+    public Map<String, String> hgetAll(String key) {
+        Jedis jds = null;
+        Map<String, String> result = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            result = jds.hgetAll(key);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return result;
+    }
+
+
     /**
-     * 设置有效时间
+     * 简单的set
      *
-     * @param key     Redis键
-     * @param timeout 超时时间
-     * @return true=设置成功；false=设置失败
+     * @param key
+     * @param value
      */
-    public boolean expire(final String key, final long timeout) {
-        return expire(key, timeout, TimeUnit.SECONDS);
+    public void set(Object key, Object value) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] skey = FastJsonSerializer.serialize(key);
+            byte[] svalue = FastJsonSerializer.serialize(value);
+            jds.set(skey, svalue);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
     }
 
     /**
-     * 设置有效时间
+     * 过期时间的
      *
-     * @param key     Redis键
-     * @param timeout 超时时间
-     * @param unit    时间单位
-     * @return true=设置成功；false=设置失败
+     * @param key
+     * @param value
+     * @param timer （秒）
      */
-    public boolean expire(final String key, final long timeout, final TimeUnit unit) {
-        Boolean ret = redisTemplate.expire(key, timeout, unit);
-        return ret != null && ret;
-    }
-
-    /**
-     * 删除单个key
-     *
-     * @param key 键
-     * @return true=删除成功；false=删除失败
-     */
-    public boolean del(final String key) {
-        Boolean ret = redisTemplate.delete(key);
-        return ret != null && ret;
-    }
-
-    /**
-     * 删除多个key
-     *
-     * @param keys 键集合
-     * @return 成功删除的个数
-     */
-    public long del(final Collection<String> keys) {
-        Long ret = redisTemplate.delete(keys);
-        return ret == null ? 0 : ret;
-    }
-
-    // 存储普通对象操作
-
-    /**
-     * 存入普通对象
-     *
-     * @param key   Redis键
-     * @param value 值
-     */
-    public void set(final String key, final Object value) {
-        redisTemplate.opsForValue().set(key, value, 1, TimeUnit.MINUTES);
-    }
-
-    /**
-     * 存入普通对象
-     *
-     * @param key     键
-     * @param value   值
-     * @param timeout 有效期，单位秒
-     */
-    public void set(final String key, final Object value, final long timeout) {
-        redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
-    }
-
-    /**
-     * 存入普通对象
-     *
-     * @param key     键
-     * @param value   值
-     * @param timeout 有效期
-     * @param unit    时间单位
-     */
-    public void set(final String key, final Object value, final long timeout, final TimeUnit unit) {
-        redisTemplate.opsForValue().set(key, value, timeout, unit);
-
+    public void setex(Object key, Object value, int timer) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] skey = FastJsonSerializer.serialize(key);
+            byte[] svalue = FastJsonSerializer.serialize(value);
+            jds.setex(skey, timer, svalue);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
 
     }
 
     /**
-     * 获取普通对象
-     *
-     * @param key 键
-     * @return 对象
+     * @param <T>
+     * @param mapkey       map
+     * @param key          map里的key
+     * @param requiredType value的泛型类型
+     * @return
      */
-    public Object get(final String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
+    public <T> T getVByMap(String mapkey, String key, Class<T> requiredType) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] mkey = FastJsonSerializer.serialize(mapkey);
+            byte[] skey = FastJsonSerializer.serialize(key);
+            List<byte[]> result = jds.hmget(mkey, skey);
+            if (null != result && result.size() > 0) {
+                byte[] x = result.get(0);
+                T resultObj = FastJsonSerializer.deserialize(x, requiredType);
+                return resultObj;
+            }
 
-    // 存储Hash操作
-
-    /**
-     * 往Hash中存入数据
-     *
-     * @param key   Redis键
-     * @param hKey  Hash键
-     * @param value 值
-     */
-    public void hPut(final String key, final String hKey, final Object value) {
-        redisTemplate.opsForHash().put(key, hKey, value);
-    }
-
-    /**
-     * 往Hash中存入多个数据
-     *
-     * @param key    Redis键
-     * @param values Hash键值对
-     */
-    public void hPutAll(final String key, final Map<String, Object> values) {
-        redisTemplate.opsForHash().putAll(key, values);
-    }
-
-    /**
-     * 获取Hash中的数据
-     *
-     * @param key  Redis键
-     * @param hKey Hash键
-     * @return Hash中的对象
-     */
-    public Object hGet(final String key, final String hKey) {
-        return redisTemplate.opsForHash().get(key, hKey);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
     }
 
     /**
-     * 获取多个Hash中的数据
-     *
-     * @param key   Redis键
-     * @param hKeys Hash键集合
-     * @return Hash对象集合
+     * @param mapkey map
+     * @param key    map里的key
+     * @param value  map里的value
      */
-    public List<Object> hMultiGet(final String key, final Collection<Object> hKeys) {
-        return redisTemplate.opsForHash().multiGet(key, hKeys);
-    }
+    public void setVByMap(String mapkey, String key, Object value) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] mkey = FastJsonSerializer.serialize(mapkey);
+            byte[] skey = FastJsonSerializer.serialize(key);
+            byte[] svalue = FastJsonSerializer.serialize(value);
+            jds.hset(mkey, skey, svalue);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
 
-    // 存储Set相关操作
-
-    /**
-     * 往Set中存入数据
-     *
-     * @param key    Redis键
-     * @param values 值
-     * @return 存入的个数
-     */
-    public long sSet(final String key, final Object... values) {
-        Long count = redisTemplate.opsForSet().add(key, values);
-        return count == null ? 0 : count;
-    }
-
-    /**
-     * 删除Set中的数据
-     *
-     * @param key    Redis键
-     * @param values 值
-     * @return 移除的个数
-     */
-    public long sDel(final String key, final Object... values) {
-        Long count = redisTemplate.opsForSet().remove(key, values);
-        return count == null ? 0 : count;
-    }
-
-    // 存储List相关操作
-
-    /**
-     * 往List中存入数据
-     *
-     * @param key   Redis键
-     * @param value 数据
-     * @return 存入的个数
-     */
-    public long lPush(final String key, final Object value) {
-        Long count = redisTemplate.opsForList().rightPush(key, value);
-        return count == null ? 0 : count;
     }
 
     /**
-     * 往List中存入多个数据
+     * 删除Map里的值
      *
-     * @param key    Redis键
-     * @param values 多个数据
-     * @return 存入的个数
+     * @param mapKey
+     * @param dkey
+     * @return
      */
-    public long lPushAll(final String key, final Collection<Object> values) {
-        Long count = redisTemplate.opsForList().rightPushAll(key, values);
-        return count == null ? 0 : count;
+    public Object delByMapKey(String mapKey, String... dkey) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[][] dx = new byte[dkey.length][];
+            for (int i = 0; i < dkey.length; i++) {
+                dx[i] = FastJsonSerializer.serialize(dkey[i]);
+            }
+            byte[] mkey = FastJsonSerializer.serialize(mapKey);
+            Long result = jds.hdel(mkey, dx);
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return new Long(0);
     }
 
     /**
-     * 往List中存入多个数据
+     * 往redis里取set整个集合
      *
-     * @param key    Redis键
-     * @param values 多个数据
-     * @return 存入的个数
+     * @param <T>
+     * @param setKey
+     * @param requiredType
+     * @return
      */
-    public long lPushAll(final String key, final Object... values) {
-        Long count = redisTemplate.opsForList().rightPushAll(key, values);
-        return count == null ? 0 : count;
+    public <T> Set<T> getVByList(String setKey, Class<T> requiredType) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] lkey = FastJsonSerializer.serialize(setKey);
+            Set<T> set = new TreeSet<T>();
+            Set<byte[]> xx = jds.smembers(lkey);
+            for (byte[] bs : xx) {
+                T t = FastJsonSerializer.deserialize(bs, requiredType);
+                set.add(t);
+            }
+            return set;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
     }
 
     /**
-     * 从List中获取begin到end之间的元素
+     * 获取Set长度
      *
-     * @param key   Redis键
-     * @param start 开始位置
-     * @param end   结束位置（start=0，end=-1表示获取全部元素）
-     * @return List对象
+     * @param setKey
+     * @return
      */
-    public List<Object> lGet(final String key, final int start, final int end) {
-        return redisTemplate.opsForList().range(key, start, end);
+    public Long getLenBySet(String setKey) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            Long result = jds.scard(setKey);
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
+    }
+
+    /**
+     * 删除Set
+     *
+     * @param dkey
+     * @return
+     */
+    public Long delSetByKey(String key, String... dkey) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            Long result = 0L;
+            if (null == dkey) {
+                result = jds.srem(key);
+            } else {
+                result = jds.del(key);
+            }
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return new Long(0);
+    }
+
+    /**
+     * 随机 Set 中的一个值
+     *
+     * @param key
+     * @return
+     */
+    public String srandmember(String key) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            String result = jds.srandmember(key);
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
+    }
+
+    /**
+     * 往redis里存Set
+     *
+     * @param setKey
+     * @param value
+     */
+    public void setVBySet(String setKey, String value) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            jds.sadd(setKey, value);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+    }
+
+    /**
+     * 取set
+     *
+     * @param key
+     * @return
+     */
+    public Set<String> getSetByKey(String key) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            Set<String> result = jds.smembers(key);
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
+
+    }
+
+
+    /**
+     * 往redis里存List
+     *
+     * @param listKey
+     * @param value
+     */
+    public void setVByList(String listKey, Object value) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] lkey = FastJsonSerializer.serialize(listKey);
+            byte[] svalue = FastJsonSerializer.serialize(value);
+            jds.rpush(lkey, svalue);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+    }
+
+    /**
+     * 往redis里取list
+     *
+     * @param <T>
+     * @param listKey
+     * @param start
+     * @param end
+     * @param requiredType
+     * @return
+     */
+    public <T> List<T> getVByList(String listKey, int start, int end, Class<T> requiredType) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] lkey = FastJsonSerializer.serialize(listKey);
+            List<T> list = new ArrayList<T>();
+            List<byte[]> xx = jds.lrange(lkey, start, end);
+            for (byte[] bs : xx) {
+                T t = FastJsonSerializer.deserialize(bs, requiredType);
+                list.add(t);
+            }
+            return list;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
+    }
+
+    /**
+     * 获取list长度
+     *
+     * @param listKey
+     * @return
+     */
+    public Long getLenByList(String listKey) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] lkey = FastJsonSerializer.serialize(listKey);
+            Long result = jds.llen(lkey);
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return null;
+    }
+
+    /**
+     * 删除
+     *
+     * @param dkey
+     * @return
+     */
+    public Long delByKey(String... dkey) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[][] dx = new byte[dkey.length][];
+            for (int i = 0; i < dkey.length; i++) {
+                dx[i] = FastJsonSerializer.serialize(dkey[i]);
+            }
+            Long result = jds.del(dx);
+            return result;
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return new Long(0);
+    }
+
+    /**
+     * 判断是否存在
+     *
+     * @param existskey
+     * @return
+     */
+    public boolean exists(String existskey) {
+        Jedis jds = null;
+        boolean isBroken = false;
+        try {
+            jds = jedisPool.getResource();
+            jds.select(0);
+            byte[] lkey = FastJsonSerializer.serialize(existskey);
+            return jds.exists(lkey);
+        } catch (Exception e) {
+            isBroken = true;
+            e.printStackTrace();
+        } finally {
+            returnResource(jds, isBroken);
+        }
+        return false;
+    }
+
+    /**
+     * 释放
+     *
+     * @param jedis
+     * @param isBroken
+     */
+    public void returnResource(Jedis jedis, boolean isBroken) {
+        if (jedis == null)
+            return;
+        jedis.close();
     }
 }

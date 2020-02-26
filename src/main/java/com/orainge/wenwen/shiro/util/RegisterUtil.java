@@ -1,8 +1,10 @@
 package com.orainge.wenwen.shiro.util;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.orainge.wenwen.mybatis.entity.User;
 import com.orainge.wenwen.mybatis.mapper.UserMapper;
+import com.orainge.wenwen.redis.JedisConfig;
 import com.orainge.wenwen.redis.RedisUtil;
 import com.orainge.wenwen.util.EmailUtil;
 import com.orainge.wenwen.util.Response;
@@ -17,9 +19,9 @@ public class RegisterUtil {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    RedisUtil redisUtil;
-    @Autowired
     EmailUtil emailUtil;
+    @Autowired
+    RedisUtil redisUtil;
 
     // 错误提示 状态码对应数组的下标
     private final String[] registerMessage = {"注册成功", "连接错误，请稍后再试", "邮箱已存在，换一个试试呗", "用户名已存在，换一个试试呗"};
@@ -82,17 +84,14 @@ public class RegisterUtil {
                 String originalToken = tokens[1];
                 String redisKey = activateEmailPrefix + encodeEmail;
 
-                Collection<Object> hGets = new HashSet<Object>();
-                hGets.add("email");
-                hGets.add("token");
-                List<Object> redisTokenObj = redisUtil.hMultiGet(redisKey, hGets);
-                if (redisTokenObj.get(0) == null) {
+                Map<String, String> redisTokenObj = redisUtil.hgetAll(redisKey);
+                if (redisTokenObj == null || redisTokenObj.isEmpty()) {
                     // 说明这个账户没申请过激活链接
                     code = 2;
                 } else {
                     // 说明这个账户申请过激活链接
-                    email = redisTokenObj.get(0).toString();
-                    String redisToken = redisTokenObj.get(1).toString();
+                    email = redisTokenObj.get("email");
+                    String redisToken = redisTokenObj.get("token");
 
                     if (StringUtils.equals(redisToken, originalToken)) {
                         // 相等，可以激活
@@ -141,11 +140,10 @@ public class RegisterUtil {
                 String originalToken = tokens[1];
                 String encodeToken = tokens[2];
 
-                Map<String, Object> hPuts = new HashMap<String, Object>();
+                Map<String, String> hPuts = new HashMap<String, String>();
                 hPuts.put("token", originalToken);
                 hPuts.put("email", email);
-                redisUtil.hPutAll(redisKey, hPuts);
-                redisUtil.expire(redisKey, 10, TimeUnit.MINUTES);
+                redisUtil.hset(redisKey, hPuts, 10 * 60);
                 emailUtil.sendActivateEmail(email, encodeToken);
             }
         } catch (Exception e) {

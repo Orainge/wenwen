@@ -4,6 +4,6 @@ spring:
   profiles:
     include: dbsettings, druid, mybatis, redis
   datasource:
-    # 使用 druid 作为数据库连接池
+    # Mysql 使用 druid 作为数据库连接池
     name: druidDatasourcee
     type: com.alibaba.druid.pool.DruidDataSource
