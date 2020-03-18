@@ -1,7 +1,8 @@
 package com.orainge.wenwen.controller;
 
+import com.orainge.wenwen.controller.util.ControllerHelper;
 import com.orainge.wenwen.service.LoginService;
-import com.orainge.wenwen.util.NullParmatersException;
+import com.orainge.wenwen.controller.util.NullParametersException;
 import com.orainge.wenwen.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,8 +45,9 @@ public class LoginController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Response apiLogin(@RequestBody(required = false) Map<String, Object> map, HttpServletRequest request) throws NullParmatersException {
-        Object[] result = ControllerHelper.getMapParamtersInObject(map, "principal", "password", "rememberMe");
-        return loginService.apiLogin(result[0].toString(), result[1].toString(), (Integer) result[2], request);
+    public Response apiLogin(@RequestBody(required = false) Map<String, Object> map, HttpServletRequest request) throws NullParametersException {
+        Object[] result = ControllerHelper.getParametersInObject(map, "principal", "password", "rememberMe");
+        Response response = loginService.apiLogin(result[0].toString(), result[1].toString(), (Integer) result[2], request);
+        return response;
     }
 }

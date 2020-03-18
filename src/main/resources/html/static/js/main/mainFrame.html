@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/preload.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/main/navi.css" media="all">
+    <link rel="stylesheet" href="/static/css/main/notification.css" media="all">
+    <link rel="stylesheet" href="/static/css/main/main.css" media="all">
+</head>
+
+<body>
+    <div id="navi-div">
+        <div class="navi">
+            <div class="navi-title"><a href="/">问问社区</a></div>
+            <div name="navi-separator" style="width: 20px;"></div>
+            <div class="navi-tab">
+                <ul>
+                    <a href="/">
+                        <li id="navi-tab-index">首页</li>
+                    </a>
+                    <a href="/explore">
+                        <li id="navi-tab-explore">发现</li>
+                    </a>
+                    <a href="/topic">
+                        <li id="navi-tab-topic">话题</li>
+                    </a>
+                </ul>
+            </div>
+            <div name="navi-separator" style="width: 60px;"></div>
+            <div class="navi-search-box">
+                <input id="navi-search-input" placeholder="搜索你感兴趣的内容...">
+                <div id="navi-search-button"></div>
+            </div>
+            <div name="navi-separator" style="width: 10px;"></div>
+            <button id="navi-ask-button">提问</button>
+            <div name="navi-separator" style="width: 170px;"></div>
+            <div name="navi-separator" style="width: 10px;"></div>
+            <div id="navi-notification-button"></div>
+            <div class="navi-separator" style="width: 20px;"></div>
+            <img id="navi-user-avatar" style="width: 33px; height: 33px;">
+        </div>
+        <div id="navi-notification-pop">
+            <div id="navi-notification-box-div">
+                <div id="navi-notification-box">
+                    <div id="navi-notification-box-triangle1"></div>
+                    <div id="navi-notification-box-triangle2"></div>
+                    <div class="navi-notification-box-tab">
+                        <div id="navi-notification-box-tab-feed" class="navi-notification-box-tab-icon"></div>
+                        <div class="navi-notification-box-tab-separator"></div>
+                        <div id="navi-notification-box-tab-message" class="navi-notification-box-tab-icon"></div>
+                        <div class="navi-notification-box-tab-separator"></div>
+                        <div id="navi-notification-box-tab-like" class="navi-notification-box-tab-icon"></div>
+                    </div>
+                    <div id="navi-notification-box-main">
+                        <!-- feed -->
+                        <div id="navi-notification-box-main-feed" class="navi-notification-box-main-list">
+                            <div id="navi-notification-box-loading-feed" class="navi-notification-box-loading">
+                                <img src="/static/img/loading.gif">
+                                <p>加载通知中</p>
+                            </div>
+                            <div id="navi-notification-box-loading-fail-feed"
+                                class="navi-notification-box-loading-fail">
+                                <img src="/static/img/error.png">
+                                <p>加载失败，请稍后再试</p>
+                            </div>
+                            <div id="navi-notification-box-success-feed" class="navi-notification-box-success">
+                            </div>
+                        </div>
+                        <!-- 个人消息 -->
+                        <div id="navi-notification-box-main-message" class="navi-notification-box-main-list">
+                            <div id="navi-notification-box-loading-message" class="navi-notification-box-loading">
+                                <img src="/static/img/loading.gif">
+                                <p>加载通知中</p>
+                            </div>
+                            <div id="navi-notification-box-loading-fail-message"
+                                class="navi-notification-box-loading-fail">
+                                <img src="/static/img/error.png">
+                                <p>加载失败，请稍后再试</p>
+                            </div>
+                            <div id="navi-notification-box-success-message" class="navi-notification-box-success">
+                            </div>
+                        </div>
+                        <!-- 个人点赞 -->
+                        <div id="navi-notification-box-main-like" class="navi-notification-box-main-list">
+                            <div id="navi-notification-box-loading-like" class="navi-notification-box-loading">
+                                <img src="/static/img/loading.gif">
+                                <p>加载通知中</p>
+                            </div>
+                            <div id="navi-notification-box-loading-fail-like"
+                                class="navi-notification-box-loading-fail">
+                                <img src="/static/img/error.png">
+                                <p>加载失败，请稍后再试</p>
+                            </div>
+                            <div id="navi-notification-box-success-like" class="navi-notification-box-success">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="navi-notification-box-footer">
+                        <a href="/notification">
+                            <div id="navi-notification-box-footer-icon"></div>
+                            <div id="navi-notification-box-footer-tips">查看所有通知</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="navi-user-menu-pop">
+            <div id="navi-user-menu-box-div">
+                <div id="navi-user-menu-box">
+                    <div id="navi-user-menu-box-triangle1"></div>
+                    <div id="navi-user-menu-box-triangle2"></div>
+                    <div class="navi-user-menu-box-item-div">
+                        <ul>
+                            <a href="/profile">
+                                <li>
+                                    <div id="navi-user-menu-box-item-profile" class="navi-user-menu-box-item-icon">
+                                    </div>我的主页
+                                </li>
+                            </a>
+                            <a href="/settings">
+                                <li>
+                                    <div id="navi-user-menu-box-item-settings" class="navi-user-menu-box-item-icon">
+                                    </div>设置
+                                </li>
+                            </a>
+                            <a href="/logout">
+                                <li>
+                                    <div id="navi-user-menu-box-item-exit" class="navi-user-menu-box-item-icon">
+                                    </div>退出
+                                </li>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="navi-bottom-line"></div>
+    <script type="text/javascript" src="/static/js/main/navi.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/main/notification.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/main/main.js" charset="utf-8"></script>
+</body>
+
+</html>

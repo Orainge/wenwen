@@ -4,18 +4,21 @@ package com.orainge.wenwen.util;
  * 封装的返回数据
  */
 public class Response {
-    private int code;
+    private Integer code;
     private String message;
     private Object data;
 
     public Response() {
+        code = null;
+        message = null;
+        data = null;
     }
 
-    public Response(int code) {
+    public Response(Integer code) {
         this.code = code;
     }
 
-    public Response(int code, String message) {
+    public Response(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

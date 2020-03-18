@@ -11,6 +11,8 @@ public class User {
 
     private String password;
 
+    private String nickname;
+
     private String avatarUrl;
 
     private Date createTime;
@@ -74,6 +76,16 @@ public class User {
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
     }
+
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
 
     public String getAvatarUrl() {
         return avatarUrl;

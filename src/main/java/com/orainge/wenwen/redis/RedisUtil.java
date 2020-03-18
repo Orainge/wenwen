@@ -26,7 +26,7 @@ public class RedisUtil {
             result = jds.get(key);
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }
@@ -42,7 +42,7 @@ public class RedisUtil {
             jds.del(key);
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }
@@ -62,7 +62,7 @@ public class RedisUtil {
             jds.expire(key, seconds);
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }
@@ -81,7 +81,7 @@ public class RedisUtil {
             }
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }
@@ -97,7 +97,7 @@ public class RedisUtil {
             result = jds.hgetAll(key);
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }
@@ -122,7 +122,7 @@ public class RedisUtil {
             jds.set(skey, svalue);
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }
@@ -146,7 +146,7 @@ public class RedisUtil {
             jds.setex(skey, timer, svalue);
         } catch (Exception e) {
             isBroken = true;
-            e.printStackTrace();
+            throw e;
         } finally {
             returnResource(jds, isBroken);
         }

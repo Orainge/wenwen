@@ -1,10 +1,13 @@
 package com.orainge.wenwen.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.orainge.wenwen.mybatis.entity.User;
 import com.orainge.wenwen.mybatis.mapper.UserMapper;
 import com.orainge.wenwen.service.LoginService;
 import com.orainge.wenwen.shiro.util.LoginUtil;
 import com.orainge.wenwen.util.Response;
+import com.orainge.wenwen.util.WebsiteSettings;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserMapper userMapper;
 
+
     @Override
     public Response apiLogin(String principal, String password, Integer rememberMe, HttpServletRequest request) {
         Response response = loginUtil.login(principal, password, rememberMe == 1);
@@ -30,16 +34,14 @@ public class LoginServiceImpl implements LoginService {
                 /* 登录成功，放入用户信息 */
                 Map<String, Object> data = new HashMap<String, Object>();
                 data.put("redirectUrl", getRedirectUrl(request));
-                // TODO 放入用户信息
-                // User user = userMapper.getUserInfoByPricipal(principal);
-                // data.put("userInfo", user);
+                data.put("userInfo", userMapper.getUserInfoByPricipal(principal));
                 response.setData(data);
                 // 更新登录时间
-                User user = new User();
-                user.setUsername(principal);
-                user.setEmail(principal);
-                user.setLastLoginTime(new Date());
-                if (userMapper.updateLoginTime(user) != 1) {
+                User userTime = new User();
+                userTime.setUsername(principal);
+                userTime.setEmail(principal);
+                userTime.setLastLoginTime(new Date());
+                if (userMapper.updateLoginTime(userTime) != 1) {
                     throw new Exception("更新登录时间出现错误");
                 }
             } catch (Exception e) {
@@ -68,10 +70,11 @@ public class LoginServiceImpl implements LoginService {
         String url = "/";
         if (savedRequest != null) {
             url = savedRequest.getRequestUrl();
-            if (url.equals("/login") || url.equals("/apiLogout")) {
-                return "/";
-            } else
-                return url;
+            for (String str : WebsiteSettings.TO_REDIRECT_INDEX_URL) {
+                if (StringUtils.equals(str, url)) {
+                    break;
+                }
+            }
         }
         return url;
     }

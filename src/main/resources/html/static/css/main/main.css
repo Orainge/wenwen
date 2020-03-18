@@ -1,0 +1,42 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 1000px;
+    background-color: rgb(249, 250, 251);
+    /* background: #ffffff url(/static/img/bg.png) repeat; */
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    margin-top: 60px;
+    width: 1000px;
+}
+
+#main-body {
+    display: block;
+    width: 680px;
+}
+
+#main-separator {
+    display: block;
+    width: 0px;
+    margin: 0 10px 0 10px;
+    background-color: gray;
+    box-shadow: 0 1px 1px 1px rgb(235, 235, 235);
+}
+
+#main-sidebar {
+    width: 280px;
+}
+
+.main-div {
+    background-color: white;
+    margin-bottom: 10px;
+    border-color: rgb(236, 236, 236);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 1px;
+}

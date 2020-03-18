@@ -25,8 +25,8 @@ public class RegisterUtil {
 
     // 错误提示 状态码对应数组的下标
     private final String[] registerMessage = {"注册成功", "连接错误，请稍后再试", "邮箱已存在，换一个试试呗", "用户名已存在，换一个试试呗"};
-    private final String[] activateMessage = {"验证成功", "连接错误，请稍后再试", "激活链接无效"};
     private final String[] sendActivateMessage = {"激活链接发送成功，请注意查收", "连接错误，请稍后再试", "用户不存在", "该用户已经激活"};
+    private final String[] activateMessage = {"验证成功", "连接错误，请稍后再试", "激活链接无效"};
     private final String activateEmailPrefix = "activate:";
 
     /**
@@ -73,7 +73,7 @@ public class RegisterUtil {
      */
     public Response activateByToken(String encodeToken) {
         int code = 0;
-        String email = "";
+        String email = null;
         try {
             String[] tokens = CommonUtil.verifyToken(encodeToken);
             if (tokens == null) {

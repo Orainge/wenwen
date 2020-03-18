@@ -2,16 +2,41 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>问问 社区</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <title>问问社区 | 首页</title>
+    <script type="text/javascript" src="/static/js/main/mainFrame.js" charset="utf-8"></script>
+    <style>
+        body {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    问问社区
+    <div id="main">
+        <div id="main-body">
+            <div style="height: 2000px;">
+                <p>dddd</p>
+            </div>
+        </div>
+        <div id="main-separator"></div>
+        <div id="main-sidebar">
+            <div class="main-div" style="height: 100px;">
+                ddddd
+            </div>
+            <div class="main-div" style="height: 300px;">
+                d
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            sourceLoad(function () {
+                setSidebarStopHeight(100)
+                naviNowTab("index")
+            })
+        }
+    </script>
 </body>
 
 </html>

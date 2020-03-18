@@ -8,6 +8,8 @@ public class CommonUtil {
 
     /**
      * 生成token
+     *
+     * @return String[]{加密email, 原始token, 加密token}
      */
     public static String[] getToken(String email) {
         String encodeEmail = DigestUtils.md5DigestAsHex(email.getBytes());
@@ -55,7 +57,7 @@ public class CommonUtil {
     /**
      * 验证 token 格式是否有效，不检查是否存在于 redis
      *
-     * @return String[]{encodeEmail, token}
+     * @return String[]{加密的email, 原始token}；验证失败返回null
      */
     public static String[] verifyToken(String encodeToken) {
         if (encodeToken.length() == 64) {

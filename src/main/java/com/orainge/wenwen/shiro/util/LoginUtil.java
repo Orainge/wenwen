@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginUtil {
     // 错误提示 状态码对应数组的下标
-    private final String[] loginMessage = {"登录成功", "连接错误，请稍后再试", "用户名或密码错误", "用户名或密码错误次数过多", "用户名或密码错误", "账户未激活，请查看邮箱根据提示激活"};
+    private final String[] loginMessage = {"登录成功", "连接错误，请稍后再试", "用户名或密码错误", "用户名或密码错误次数过多", "用户名或密码错误", "账户未激活，请先激活账户"};
     private final String[] logoutMessage = {"退出登录成功", "连接错误，请稍后再试"};
 
     /**

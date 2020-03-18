@@ -1,7 +1,8 @@
 package com.orainge.wenwen.controller;
 
+import com.orainge.wenwen.controller.util.ControllerHelper;
 import com.orainge.wenwen.service.AuthService;
-import com.orainge.wenwen.util.NullParmatersException;
+import com.orainge.wenwen.controller.util.NullParametersException;
 import com.orainge.wenwen.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,8 @@ public class AuthController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Response apiRegister(@RequestBody(required = false) Map<String, String> map) throws NullParmatersException {
-        String[] result = ControllerHelper.getMapParamtersInString(map, "email", "username", "password");
+    public Response apiRegister(@RequestBody(required = false) Map<String, String> map) throws NullParametersException {
+        String[] result = ControllerHelper.getParametersInString(map, "email", "username", "password");
         return authService.apiRegister(result[0], result[1], result[2]);
     }
 
@@ -39,8 +40,8 @@ public class AuthController {
      */
     @RequestMapping(value = "/sendActivate", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Response apiSendActivate(@RequestBody(required = false) Map<String, String> map) throws NullParmatersException {
-        String[] result = ControllerHelper.getMapParamtersInString(map, "email");
+    public Response apiSendActivate(@RequestBody(required = false) Map<String, String> map) throws NullParametersException {
+        String[] result = ControllerHelper.getParametersInString(map, "email");
         return authService.apiSendActivate(result[0]);
     }
 
@@ -57,8 +58,8 @@ public class AuthController {
      */
     @RequestMapping(value = "/sendReset", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Response apiSendReset(@RequestBody(required = false) Map<String, String> map) throws NullParmatersException {
-        String[] result = ControllerHelper.getMapParamtersInString(map, "email");
+    public Response apiSendReset(@RequestBody(required = false) Map<String, String> map) throws NullParametersException {
+        String[] result = ControllerHelper.getParametersInString(map, "email");
         return authService.apiSendReset(result[0]);
     }
 
@@ -66,9 +67,15 @@ public class AuthController {
      * API: 激活指定邮箱的账户
      */
     @RequestMapping(value = "/activate/{token}", method = RequestMethod.GET)
-    public String apiActivate(@PathVariable(value = "token", required = false) String token, Model model) throws NullParmatersException {
-        ControllerHelper.validToken(token);
-        model.addAttribute("response", authService.apiActivate(token)); // 向前端传送信息 response
+    public String apiActivate(@PathVariable(value = "token", required = false) String token, Model model) throws NullParametersException {
+        ControllerHelper.validTokenIsExist(token);
+        Response response = authService.apiActivate(token);
+        model.addAttribute("code", response.getCode());
+        if (response.getCode() == 0) {
+            model.addAttribute("data", response.getData());
+        } else {
+            model.addAttribute("message", response.getMessage());
+        }
         return "auth/register/activate";
     }
 
@@ -77,9 +84,15 @@ public class AuthController {
      * 页面：根据 Token 来检查是否有权限重置密码
      */
     @RequestMapping(value = "/resetPassword/{token}", method = RequestMethod.GET)
-    public String toResetPassword(@PathVariable(value = "token", required = false) String token, Model model) throws NullParmatersException {
-        ControllerHelper.validToken(token);
-        model.addAttribute("response", authService.toResetPassword(token)); // 向前端传送信息 response
+    public String toResetPassword(@PathVariable(value = "token", required = false) String token, Model model) throws NullParametersException {
+        ControllerHelper.validTokenIsExist(token);
+        Response response = authService.toResetPassword(token);
+        model.addAttribute("code", response.getCode());
+        if (response.getCode() == 0) {
+            model.addAttribute("data", response.getData());
+        } else {
+            model.addAttribute("message", response.getMessage());
+        }
         return "auth/password/reset";
     }
 
@@ -88,8 +101,8 @@ public class AuthController {
      */
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Response apiResetPassword(@RequestBody(required = false) Map<String, String> map) throws NullParmatersException {
-        String[] result = ControllerHelper.getMapParamtersInString(map, "token", "password");
+    public Response apiResetPassword(@RequestBody(required = false) Map<String, String> map) throws NullParametersException {
+        String[] result = ControllerHelper.getParametersInString(map, "token", "password");
         return authService.apiResetPassword(result[0], result[1]);
     }
 }

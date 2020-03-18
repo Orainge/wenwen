@@ -8,7 +8,7 @@
 
     <!-- 获取要保存在浏览器的用户信息 -->
     <select id="getUserInfoByPricipal" parameterType="String" resultType="User">
-        select * from user where (username = #{principal} or email = #{principal}) and user_status = 0
+        select user_id, nickname, avatar_url from user where (username = #{principal} or email = #{principal}) and user_status = 0
     </select>
 
     <!-- 检查用户是否存在 -->
@@ -18,7 +18,7 @@
 
     <!-- 用户注册-->
     <insert id="registerUser" parameterType="User">
-        insert into user(email, username, password, create_time) values(#{email}, #{username}, #{password}, #{createTime})
+        insert into user(email, username, password, nickname, create_time) values(#{email}, #{username}, #{password}, #{username}, #{createTime})
     </insert>
 
     <!-- 写入登陆时间 -->

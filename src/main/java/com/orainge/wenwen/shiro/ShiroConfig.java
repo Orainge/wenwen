@@ -1,9 +1,9 @@
 package com.orainge.wenwen.shiro;
 
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -41,20 +41,22 @@ public class ShiroConfig {
     }
 
     @Bean(name = "securityManager")
-    public SecurityManager securityManager() {
+    public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        //securityManager.setSessionManager(sessionManager()); // 自定义session管理
+        securityManager.setSessionManager(sessionManager()); // 自定义session管理
         securityManager.setRealm(userRealm());
         return securityManager;
     }
-//
-//    @Bean
-//    public SessionManager sessionManager() {
-//        SessionManager shiroSessionManager = new SessionManager();
-//        //这里可以不设置。Shiro有默认的session管理。如果缓存为Redis则需改用Redis的管理
-//        // shiroSessionManager.setSessionDAO(new EnterpriseCacheSessionDAO());
-//        return shiroSessionManager;
-//    }
+
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager sessionManager() {
+        // 要在上面加入自定义的 session管理 securityManager.setSessionManager(sessionManager());
+        DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
+        defaultWebSessionManager.setSessionIdUrlRewritingEnabled(false); // 去掉 shiro 登录时 url 里的 JSESSIONID
+        //这里可以不设置。Shiro有默认的session管理。如果缓存为Redis则需改用Redis的管理
+        // shiroSessionManager.setSessionDAO(new EnterpriseCacheSessionDAO());
+        return defaultWebSessionManager;
+    }
 
     @Bean(name = "userRealm")
     public UserRealm userRealm() {

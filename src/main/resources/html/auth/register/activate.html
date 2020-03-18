@@ -26,13 +26,13 @@
                     <div id="main-box-tips-success">
                         <!-- 激活成功的提示 -->
                         <div class="main-box-tips-success-title">您的账户</div>
-                        <span class="main-box-tips-success-email">${response.data}</span>
+                        <span class="main-box-tips-success-email">${data}</span>
                         <div class="main-box-tips-success-message">已成功激活</div>
                     </div>
                     <div id="main-box-tips-fail">
                         <!-- 激活失败的提示 -->
                         <div class="main-box-tips-fail-title">激活失败</div>
-                        <span class="main-box-tips-fail-message">${response.message}</span>
+                        <span class="main-box-tips-fail-message">${message}</span>
                     </div>
                 </div>
 
@@ -50,27 +50,26 @@
     </div>
     <script>
         $(document).ready(function () {
-            var code = '${response.code}';
-            if (code == 0) {
+            if ('${code}' == 0) {
                 // 激活成功
                 $("#main-box-button").text("去登录")
                 $("#main-box-button").on("click", function () {
                     window.location.href = "/login"
                 })
-                document.getElementById("main-box-tips-success").style.display = "block"
-                document.getElementById("main-box-button").style.display = "block"
-                document.getElementById("main-box-loading").style.display = "none"
-                document.getElementById("main-box").style.display = "block"
+                $("#main-box-tips-success").css("display","block")
+                $("#main-box-button").css("display","block")
+                $("#main-box-loading").css("display","none")
+                $("#main-box").css("display","block")
             } else {
                 // 激活失败
                 $("#main-box-button").text("返回首页")
                 $("#main-box-button").on("click", function () {
                     window.location.href = "/"
                 })
-                document.getElementById("main-box-tips-fail").style.display = "block"
-                document.getElementById("main-box-button").style.display = "block"
-                document.getElementById("main-box-loading").style.display = "none"
-                document.getElementById("main-box").style.display = "block"
+                $("#main-box-tips-fail").css("display","block")
+                $("#main-box-button").css("display","block")
+                $("#main-box-loading").css("display","none")
+                $("#main-box").css("display","block")
             }
         });
     </script>
