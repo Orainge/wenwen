@@ -1,27 +1,18 @@
 package com.orainge.wenwen.exception;
 
 public class NullRequestParametersException extends DefaultException {
-    private String from = "请求参数";
-    private String message = from + "错误";
+    {
+        from = "请求参数";
+        message = from + "错误";
+    }
 
     public NullRequestParametersException() {
         super();
     }
 
-    public NullRequestParametersException(Exception exception) {
-        super();
-        processException(exception);
-    }
-
     public NullRequestParametersException(String... parameters) {
         super();
         setMessage(parameters);
-    }
-
-    public NullRequestParametersException(Exception exception, String... parameters) {
-        super();
-        setMessage(parameters);
-        processException(exception);
     }
 
     private void setMessage(String... parameters) {
@@ -34,11 +25,6 @@ public class NullRequestParametersException extends DefaultException {
         }
         m += "] 不能为空";
         this.message = m;
-    }
-
-    private void processException(Exception e) {
-        System.err.println("原始错误如下:");
-        e.printStackTrace();
     }
 
     public String getMessage() {

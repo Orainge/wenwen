@@ -34,7 +34,7 @@ public class MongoDBTopicDao {
                 UpdateResult upResult = mongoTemplate.upsert(query, update, MongoDBTopic.class);
             }
         } catch (Exception e) {
-            throw new MongoDBException(e, MongoDBError.INSERT_ERROR);
+            throw new MongoDBException(e, MongoDBError.INSERT_ERROR,"保存问题对应的话题");
         }
     }
 

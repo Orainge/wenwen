@@ -59,7 +59,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Map<String, String> toQuestion(Integer questionId, String userId) {
         Map<String, Object> result = questionMapper.queryQuestion(questionId);
-        System.err.println("toQuestion: " + JSON.toJSONString(result));
         if (result == null) {
             throw new NotFoundException("问题");
         }
@@ -90,7 +89,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setUserId(Integer.valueOf(userId));
         question.setIsDelete(1);
         if (1 != questionMapper.deleteQuestion(question)) {
-            throw new MySQLException("删除问题失败");
+            throw new MySQLException(MySQLError.INSERT_ERROR, "删除问题失败");
         }
 
         //删除通知

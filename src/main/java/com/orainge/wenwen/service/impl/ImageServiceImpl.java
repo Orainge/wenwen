@@ -34,7 +34,7 @@ public class ImageServiceImpl implements ImageService {
             for (int i = 0; i < failFlag; i++) {
                 imageUtil.delete(imgUrls[i]);
             }
-            throw new FileUploadException("文件上传错误");
+            throw new FileUploadException();
         } else {
             // 上传成功
             response.setData(imgUrls);

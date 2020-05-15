@@ -51,9 +51,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public Map<String, String> toAnswer(Integer userId, Integer questionId) {
-        System.out.println(getKey(userId, questionId));
         Map<String, String> redisDraftObj = redisUtil.hgetAll(getKey(userId, questionId));
-        System.out.println(JSON.toJSONString(redisDraftObj));
         if (!(redisDraftObj == null || redisDraftObj.isEmpty())) {
             // 说明这个账户有草稿
             Map<String, String> draft = new HashMap<String, String>();
@@ -126,7 +124,7 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setUserId(userId);
         answer.setIsDelete(1);
         if (1 != answerMapper.deleteAnswer(answer)) {
-            throw new MySQLException("删除回答失败");
+            throw new MySQLException(MySQLError.DELETE_ERROR, "删除回答失败");
         }
 
         // 回答数-1
@@ -167,7 +165,6 @@ public class AnswerServiceImpl implements AnswerService {
                     temp.remove("simpleDescription");
                 }
                 temp.remove("anonymous");
-                System.err.println("temp.get " + (Integer) temp.get("answerId"));
                 temp.put("isLike", socialDao.isLikeAnswer(Integer.parseInt(userId), (Integer) temp.get("answerId")));
                 temp.put("countLike", redisUtil.hincrby(ANSWER_PREFIX + temp.get("answerId"), ANSWER_COUNT_LIKE_KEY, 0));
                 newList.add(temp);

@@ -1,7 +1,10 @@
 package com.orainge.wenwen.redis.util;
 
 import com.alibaba.fastjson.JSON;
+import com.orainge.wenwen.exception.DefaultException;
 import com.orainge.wenwen.mybatis.mapper.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -19,6 +22,7 @@ import java.util.Map;
 @EnableAsync
 @SuppressWarnings("all")
 public class RedisTimer {
+    private static final Logger logger = LoggerFactory.getLogger(RedisTimer.class);
     private final String QUESTION = "question:";
     private final String QUESTION_COMMIT = "question_commit:";
     private final String ANSWER = "answer:";
@@ -39,22 +43,18 @@ public class RedisTimer {
     private UserMapper userMapper;
 
     @Scheduled(fixedDelay = 5 * 60 * 1000) // 5分钟 * 60秒 * 1000毫秒
-    public void RewriteTask() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        System.out.println("回写开始: " + sdf.format(new Date()));
+    public void writebackTask() {
+        logger.info("Redis 回写开始");
         saveQuestion();
         saveQuestionCommit();
         saveAnswer();
         saveAnswerCommit();
         saveUser();
-        System.out.println("回写结束: " + sdf.format(new Date()));
+        logger.info("Redis 回写结束");
     }
 
     private void saveQuestion() {
-        System.out.println("saveQuestion: start");
         List<String> keys = getKeys(QUESTION);
-        System.out.println("Question:" + JSON.toJSONString(keys));
         if (keys.size() == 0)
             return;
         List<Map<String, String>> objects = new ArrayList<Map<String, String>>();
@@ -68,9 +68,7 @@ public class RedisTimer {
     }
 
     private void saveQuestionCommit() {
-        System.out.println("saveQuestionCommit: start");
         List<String> keys = getKeys(QUESTION_COMMIT);
-        System.out.println("saveQuestionCommit:" + JSON.toJSONString(keys));
         if (keys.size() == 0)
             return;
         List<Map<String, String>> objects = new ArrayList<Map<String, String>>();
@@ -84,9 +82,7 @@ public class RedisTimer {
     }
 
     private void saveAnswer() {
-        System.out.println("saveAnswer: start");
         List<String> keys = getKeys(ANSWER);
-        System.out.println("saveAnswer:" + JSON.toJSONString(keys));
         if (keys.size() == 0)
             return;
         List<Map<String, String>> objects = new ArrayList<Map<String, String>>();
@@ -100,9 +96,7 @@ public class RedisTimer {
     }
 
     private void saveAnswerCommit() {
-        System.out.println("saveAnswerCommit: start");
         List<String> keys = getKeys(ANSWER_COMMIT);
-        System.out.println("saveAnswerCommit:" + JSON.toJSONString(keys));
         List<Map<String, String>> objects = new ArrayList<Map<String, String>>();
         if (keys.size() == 0)
             return;
@@ -116,9 +110,7 @@ public class RedisTimer {
     }
 
     private void saveUser() {
-        System.out.println("saveUser: start");
         List<String> keys = getKeys(PEOPLE);
-        System.out.println("saveUser:" + JSON.toJSONString(keys));
         List<Map<String, String>> objects = new ArrayList<Map<String, String>>();
         if (keys.size() == 0)
             return;

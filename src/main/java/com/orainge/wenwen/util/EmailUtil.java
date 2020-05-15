@@ -44,7 +44,7 @@ public class EmailUtil {
     }
 
     private void sendEmail(String emailAddress, String topic, String url, int emailType) {
-        System.out.println(url);
+        System.out.println("邮件中的链接:" + url);
     }
 
     // 已经测试通过的，正式使用时再开启
@@ -57,9 +57,9 @@ public class EmailUtil {
             helper.setSubject(topic);
             helper.setText(getContent(emailAddress, url, emailType), true);//重点，默认为false，显示原始html代码，无效果
             mailSender.send(message);
-//            System.out.println("----------邮件发送完成----------");
+            // 邮件发送完成
         } catch (Exception ex) {
-            throw new EmailException(ex, EmailError.SEND, "邮件发送错误");
+            throw new EmailException(ex, EmailError.SEND);
         }
     }
 

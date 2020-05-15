@@ -70,7 +70,6 @@ public class PeopleServiceImpl implements PeopleService {
             result.put("end", 1);
         }
         response.setData(result);
-        System.out.println(result);
         return response;
     }
 
@@ -85,7 +84,6 @@ public class PeopleServiceImpl implements PeopleService {
             result.put("end", 1);
         }
         response.setData(result);
-        System.out.println(result);
         return response;
     }
 
@@ -107,7 +105,6 @@ public class PeopleServiceImpl implements PeopleService {
             result.put("end", 1);
         }
         response.setData(result);
-        System.out.println(result);
         return response;
     }
 
@@ -128,7 +125,6 @@ public class PeopleServiceImpl implements PeopleService {
             result.put("end", 1);
         }
         response.setData(result);
-        System.out.println(result);
         return response;
     }
 }

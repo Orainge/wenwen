@@ -1,7 +1,12 @@
 package com.orainge.wenwen.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DefaultException extends RuntimeException {
-    private String message = "默认错误";
+    private static final Logger logger = LoggerFactory.getLogger(DefaultException.class);
+    protected String from = "";
+    protected String message = "默认错误";
 
     public DefaultException() {
         super();
@@ -9,6 +14,10 @@ public class DefaultException extends RuntimeException {
 
     public DefaultException(String message) {
         super(message);
+    }
+
+    protected void processException(Exception e) {
+        logger.error(e.getMessage(), e);
     }
 
     @Override

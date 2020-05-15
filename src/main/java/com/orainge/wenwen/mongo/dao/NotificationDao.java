@@ -214,7 +214,6 @@ public class NotificationDao {
         query.addCriteria(Criteria.where("is_cancel").ne(1));
         Update update = new Update().set("is_cancel", 1);
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
-        System.err.println(updateResult.getModifiedCount());
         if (updateResult.getModifiedCount() != 1) {
             deleteMessageInNullUserId(atUserId, type, data);
         }
@@ -258,6 +257,5 @@ public class NotificationDao {
         query.addCriteria(Criteria.where("is_cancel").ne(1));
         Update update = new Update().set("is_cancel", 1);
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
-        System.err.println(JSON.toJSONString(updateResult));
     }
 }

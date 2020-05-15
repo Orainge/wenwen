@@ -78,7 +78,7 @@ public class FollowDao {
             update.addToSet("follow_user_list", peopleId);
             UpdateResult upResult = mongoTemplate.upsert(query, update, Follow.class);
         } catch (Exception e) {
-            throw new MongoDBException(e, MongoDBError.INSERT_ERROR);
+            throw new MongoDBException(e, MongoDBError.INSERT_ERROR,"关注用户");
         }
     }
 
@@ -89,7 +89,7 @@ public class FollowDao {
             update.pull("follow_user_list", peopleId);
             UpdateResult upResult = mongoTemplate.updateFirst(query, update, Follow.class);
         } catch (Exception e) {
-            throw new MongoDBException(e, MongoDBError.INSERT_ERROR);
+            throw new MongoDBException(e, MongoDBError.DELETE_ERROR,"解除关注用户");
         }
     }
 
@@ -109,7 +109,7 @@ public class FollowDao {
             update.addToSet("follow_question_list", peopleId);
             UpdateResult upResult = mongoTemplate.upsert(query, update, Follow.class);
         } catch (Exception e) {
-            throw new MongoDBException(e, MongoDBError.INSERT_ERROR);
+            throw new MongoDBException(e, MongoDBError.INSERT_ERROR,"关注问题");
         }
     }
 
@@ -120,7 +120,7 @@ public class FollowDao {
             update.pull("follow_question_list", peopleId);
             UpdateResult upResult = mongoTemplate.updateFirst(query, update, Follow.class);
         } catch (Exception e) {
-            throw new MongoDBException(e, MongoDBError.INSERT_ERROR);
+            throw new MongoDBException(e, MongoDBError.INSERT_ERROR,"解除关注问题");
         }
     }
 }

@@ -37,7 +37,7 @@ public class QuestionController {
         try {
             id = Integer.parseInt(questionId);
         } catch (Exception e) {
-            throw new InvalidVariableException(e, "questionId");
+            throw new InvalidVariableException("questionId");
         }
 
         Map<String, String> result = questionService.toQuestion(id, userId);
@@ -62,7 +62,7 @@ public class QuestionController {
         try {
             id = Integer.parseInt(questionId);
         } catch (Exception e) {
-            throw new InvalidVariableException(e, "questionId");
+            throw new InvalidVariableException("questionId");
         }
         return questionService.deleteQuestion(id, userId);
     }
@@ -82,7 +82,7 @@ public class QuestionController {
         try {
             id = Integer.parseInt(questionId);
         } catch (Exception e) {
-            throw new InvalidVariableException(e, "questionId");
+            throw new InvalidVariableException("questionId");
         }
 
         Map<String, String> result = questionService.toQuestion(id, userId);

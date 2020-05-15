@@ -51,7 +51,6 @@ public class AnswerCommentServiceImpl implements AnswerCommentService {
         if (list == null)
             list = new ArrayList<>();
         List<Map<String, Object>> nlist = new ArrayList<Map<String, Object>>();
-//        System.out.println(JSON.toJSONString(list));
 
         Iterator<Map<String, Object>> iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -104,7 +103,6 @@ public class AnswerCommentServiceImpl implements AnswerCommentService {
         notificationData.setAc_id(answerCommentId);
         Integer answerUserId = answerMapper.getAnswerUserId(answerId).getUserId();
         notificationDao.saveMessage(userId, userMapper.getNickname(userId), answerUserId, userMapper.getNickname(answerUserId), NotificationType.COMMENT_ANSWER, notificationData);
-        System.err.println("notificationData: " + JSON.toJSONString(notificationData));
         if (atUserId != null) {
             // 2.如果是 回复回答评论 ，还需要通知被回复的人
             notificationData = new NotificationData();
