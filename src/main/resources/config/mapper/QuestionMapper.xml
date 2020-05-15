@@ -1,5 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.orainge.wenwen.mybatis.mapper.QuestionMapper">
+    <insert id="insertQuestion" parameterType="Question">
+        insert into question(title, content, user_id, create_time, anonymous, topic_list)
+        values (#{title},#{content},#{userId},#{createTime},#{anonymous},#{topicList})
+        <selectKey resultType="Integer" order="AFTER" keyProperty="questionId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="queryQuestion" parameterType="Integer" resultType="Map">
+        select question.title, question.content, question.create_time,
+            question.anonymous, question.topic_list, question.count_commit,
+            user.user_id, user.nickname, user.avatar_url, user.simple_description from question, user
+        where question.question_id = #{questionId,jdbcType=INTEGER}
+            and user.user_id = question.user_id
+            and is_delete = 0
+        limit 1
+    </select>
+
+    <select id="queryQuestionInCount" parameterType="Integer" resultType="Map">
+         select  question.count_follow, question.count_browse,
+                question.title, question.content, question.create_time,
+                question.anonymous, question.topic_list, question.count_commit,
+                user.user_id, user.nickname, user.avatar_url, user.simple_description from question, user
+        where question.question_id = #{questionId,jdbcType=INTEGER}
+            and user.user_id = question.user_id
+            and is_delete = 0
+        limit 1
+    </select>
+
+    <!-- people/get/question -->
+    <select id="getPeopleQuestion" parameterType="Integer" resultType="Question">
+        select question_id, title, count_answer
+        from question
+        where user_id = #{peopleId} and is_delete = 0
+        <if test="peopleId!=userId">
+            and anonymous = 0
+        </if>
+        order by question_id desc
+    </select>
+
+
+    <!-- people/get/answer -->
+    <select id="getPeopleAnswer" parameterType="Integer" resultType="Map">
+        select q.question_id as questionId, q.title as title, a.answer_id as answerId, a.count_like as countLike
+        from question as q, answer as a
+        where a.user_id = #{peopleId} and q.question_id = a.question_id and a.is_delete = 0
+        <if test="peopleId!=userId">
+            and a.anonymous = 0
+        </if>
+        order by answer_id desc
+    </select>
+
+    <!-- people/get/followQuestion -->
+    <select id="getPeopleFollowQuestion" parameterType="Map" resultType="Question">
+        select question_id, title, count_answer
+        from question where is_delete = 0 and question_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        order by question_id desc
+    </select>
+
+    <!-- people/get/followUser -->
+    <select id="getPeopleFollowUser" parameterType="Integer" resultType="Map">
+        select user_id as userId, nickname, avatar_url as avatarUrl, simple_description as simpleDescription,
+        count_follower as countFollower
+        from user
+        where user_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="updateRedisInfo" parameterType="List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update question set
+            <if test="item.count_browse!=null">
+                count_browse = #{item.count_browse},
+            </if>
+            <if test="item.count_follow!=null">
+                count_follow=#{item.count_follow}
+            </if>
+            where question_id = #{item.question_id}
+        </foreach>
+    </update>
+
+    <!-- search -->
+    <select id="searchQuestion" parameterType="String" resultType="Question">
+       SELECT question_id, title, count_answer FROM question
+       WHERE MATCH (title) AGAINST (#{keyword}) and is_delete = 0
+    </select>
+
+    <!-- getTopView -->
+    <select id="getTopView" resultType="Question">
+       SELECT question_id, title, count_browse FROM question
+       where is_delete = 0
+       Order by count_browse DESC, question_id DESC
+    </select>
+
+    <!-- getTopAnswer -->
+    <select id="getTopAnswer" resultType="Question">
+       SELECT question_id, title, count_answer FROM question
+       where is_delete = 0
+       Order by count_answer DESC, question_id DESC
+    </select>
+
+    <!-- deleteQuestion -->
+    <update id="deleteQuestion" parameterType="Question">
+        update question set is_delete = #{isDelete} where question_id = #{questionId} and user_id = #{userId}
+    </update>
+
+    <select id="getFollowPeopleInfo" parameterType="Integer" resultType="Map">
+        select u.nickname as nickname, q.title as title, q.user_id as questionUserId from user as u, question as q
+        where q.user_id = u.user_id and q.question_id = #{questionId}
+    </select>
+
+    <select id="getQuestionToEdit" parameterType="Integer" resultType="Question">
+        select title, content, anonymous, topic_list from question
+        where question_id = #{questionId}
+    </select>
+
+    <update id="saveEditQuestion" parameterType="Question">
+        update question set title = #{title}, content = #{content},
+        anonymous = #{anonymous}, create_time = #{createTime},
+        topic_list = #{topicList}
+        where question_id = #{questionId}
+    </update>
+
+
+    <select id="getQuestionTitle" parameterType="Integer" resultType="Question">
+        select title from question
+        where question_id = #{questionId}
+        limit 1
+    </select>
+
+    <select id="getAskUserId" parameterType="Integer" resultType="Question">
+        select user_id from question
+        where question_id = #{questionId}
+        limit 1
+    </select>
+
+    <update id="addQuestionCommentCount" parameterType="Integer">
+        update question set count_commit = count_commit+1 where question_id = #{questionId}
+    </update>
+
+    <update id="addQuestionAnswerCount" parameterType="Integer">
+        update question set count_answer = count_answer+1 where question_id = #{questionId}
+    </update>
+
+    <update id="deleteQuestionCommentCount" parameterType="Integer">
+        update question, question_comment set question.count_commit = question.count_commit-1
+        where question.question_id = question_comment.question_id and question_comment.comment_id = #{commentId}
+    </update>
+
+    <update id="deleteQuestionAnswerCount" parameterType="Integer">
+        update question, answer set question.count_answer = question.count_answer-1
+        where question.question_id = answer.question_id and answer.answer_id = #{answerId}
+    </update>
 
 </mapper>

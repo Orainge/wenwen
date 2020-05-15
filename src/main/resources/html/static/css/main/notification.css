@@ -173,6 +173,15 @@
     height: 20px;
 }
 
+.navi-notification-box-success .end-loading {
+    text-align: center;
+    border: none;
+    margin: 5px auto;
+    width: 200px;
+    height: 20px;
+    color: rgb(138, 138, 138);
+}
+
 #navi-notification-box-main-feed {
     display: flex;
 }

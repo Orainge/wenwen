@@ -1,8 +1,9 @@
 package com.orainge.wenwen.mybatis.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private Integer userId;
 
     private String email;
@@ -23,7 +24,7 @@ public class User {
 
     private Integer gender;
 
-    private String sinpleDescirption;
+    private String simpleDescription;
 
     private String address;
 
@@ -33,17 +34,11 @@ public class User {
 
     private String education;
 
-    private String fullDescirption;
-
-    private Integer countLike;
-
-    private Integer countCollect;
+    private String fullDescription;
 
     private Integer countFollowing;
 
     private Integer countFollower;
-
-    private Integer countBrowse;
 
     public Integer getUserId() {
         return userId;
@@ -58,7 +53,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public String getUsername() {
@@ -66,7 +61,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     public String getPassword() {
@@ -74,9 +69,8 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
-
 
     public String getNickname() {
         return nickname;
@@ -86,13 +80,12 @@ public class User {
         this.nickname = nickname;
     }
 
-
     public String getAvatarUrl() {
         return avatarUrl;
     }
 
     public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl == null ? null : avatarUrl.trim();
+        this.avatarUrl = avatarUrl;
     }
 
     public Date getCreateTime() {
@@ -127,12 +120,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getSinpleDescirption() {
-        return sinpleDescirption;
+    public String getSimpleDescription() {
+        return simpleDescription;
     }
 
-    public void setSinpleDescirption(String sinpleDescirption) {
-        this.sinpleDescirption = sinpleDescirption == null ? null : sinpleDescirption.trim();
+    public void setSimpleDescription(String simpleDescription) {
+        this.simpleDescription = simpleDescription;
     }
 
     public String getAddress() {
@@ -140,7 +133,7 @@ public class User {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public String getIndustry() {
@@ -148,7 +141,7 @@ public class User {
     }
 
     public void setIndustry(String industry) {
-        this.industry = industry == null ? null : industry.trim();
+        this.industry = industry;
     }
 
     public String getCareer() {
@@ -156,7 +149,7 @@ public class User {
     }
 
     public void setCareer(String career) {
-        this.career = career == null ? null : career.trim();
+        this.career = career;
     }
 
     public String getEducation() {
@@ -164,31 +157,15 @@ public class User {
     }
 
     public void setEducation(String education) {
-        this.education = education == null ? null : education.trim();
+        this.education = education;
     }
 
-    public String getFullDescirption() {
-        return fullDescirption;
+    public String getFullDescription() {
+        return fullDescription;
     }
 
-    public void setFullDescirption(String fullDescirption) {
-        this.fullDescirption = fullDescirption == null ? null : fullDescirption.trim();
-    }
-
-    public Integer getCountLike() {
-        return countLike;
-    }
-
-    public void setCountLike(Integer countLike) {
-        this.countLike = countLike;
-    }
-
-    public Integer getCountCollect() {
-        return countCollect;
-    }
-
-    public void setCountCollect(Integer countCollect) {
-        this.countCollect = countCollect;
+    public void setFullDescription(String fullDescription) {
+        this.fullDescription = fullDescription;
     }
 
     public Integer getCountFollowing() {
@@ -205,13 +182,5 @@ public class User {
 
     public void setCountFollower(Integer countFollower) {
         this.countFollower = countFollower;
-    }
-
-    public Integer getCountBrowse() {
-        return countBrowse;
-    }
-
-    public void setCountBrowse(Integer countBrowse) {
-        this.countBrowse = countBrowse;
     }
 }

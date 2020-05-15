@@ -200,8 +200,8 @@ $("#register-button").click(function () {
             unload('register')
             alertRegisterMessage("服务器错误，请稍后重试")
         }
-    });
-});
+    })
+})
 
 /* 执行登录操作 */
 function login() {
@@ -235,9 +235,11 @@ function login() {
         success: function (response) {
             if (response.code == 0) {
                 var user = response.data.userInfo
-                console.log(user)
                 // 保存用户信息
-                localStorage.setItem("userId", user.userId)
+                $.cookie('userId', user.userId, {
+                    expires: 7,
+                    path: '/'
+                })
                 localStorage.setItem("nickname", user.nickname)
                 localStorage.setItem("avatarUrl", user.avatarUrl)
                 window.location.href = response.data.redirectUrl
@@ -250,5 +252,11 @@ function login() {
             unload('login')
             alertLoginMessage("服务器错误，请稍后重试")
         }
-    });
+    })
 }
+
+$(function () {
+    localStorage.removeItem('nickname')
+    localStorage.removeItem('avatarUrl')
+    $.cookie('userId', null)
+})

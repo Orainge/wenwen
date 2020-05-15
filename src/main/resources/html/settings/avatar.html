@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>问问社区 | 修改头像</title>
+    <script type="text/javascript" src="/static/js/main/mainFrame.js" charset="utf-8"></script>
+</head>
+
+<body style="display: none;">
+    <div id="main">
+        <div id="main-down">
+            <div id="main-body">
+                <div class="main-div modify-avatar">
+                    <div class="modify-avatar-title">修改头像</div>
+                    <div class="avatar-preview-div">
+                        <img id="avatar-original" src="/static/img/icon/avatar.png">
+                        <div class="to-flag">
+                            <img style="width: 90px;" src="/static/img/icon/setting-avatar-to.png">
+                        </div>
+                        <div id="avatar-preview">
+                            <img style="max-width: 100%;" src="/static/img/icon/setting-avatar-to-what.png">
+                        </div>
+                    </div>
+                    <div id="modify-avatar-div">
+                        <div
+                            style="width: 400px; height: 300px; max-width: 400px; max-height: 300px; background-color: white;">
+                            <img style="max-width: 100%;" id="modify-avatar-image">
+                        </div>
+                        <div class="modify-avatar-tools-div">
+                            <div class="modify-avatar-button-div">
+                                <div class="modify-op-button" id="modify-avatar-zoom-in" title="放大">
+                                    <img src="/static/img/icon/modify-avatar-zoom-in.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-zoom-out" title="缩小">
+                                    <img src="/static/img/icon/modify-avatar-zoom-out.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-move-left" title="左移图片">
+                                    <img src="/static/img/icon/modify-avatar-move-left.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-move-up" title="上移图片">
+                                    <img src="/static/img/icon/modify-avatar-move-up.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-move-down" title="下移图片">
+                                    <img src="/static/img/icon/modify-avatar-move-down.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-move-right" title="右移图片">
+                                    <img src="/static/img/icon/modify-avatar-move-right.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-rotate-left" title="逆时针旋转90º">
+                                    <img src="/static/img/icon/modify-avatar-rotate-left.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-rotate-right" title="顺时针旋转90º">
+                                    <img src="/static/img/icon/modify-avatar-rotate-right.png">
+                                </div>
+                                <div class="modify-op-button" id="modify-avatar-reset" title="重置操作">
+                                    <img src="/static/img/icon/modify-avatar-reset.png">
+                                </div>
+                            </div>
+                            <div class="modify-avatar-tools-tips">键盘方向键：移动图片</div>
+                            <div class="modify-avatar-tools-tips">鼠标滚轮：调节图片大小</div>
+                        </div>
+                    </div>
+                    <div class="bottom-button-div">
+                        <label class="upload-image-button-div">
+                            <input type="file" style="display: none;" id="upload-image-button" name="file"
+                                accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                            <span id="upload-image-button-text">选择图片</span>
+                        </label>
+                        <button id="confirm-button">确定</button>
+                    </div>
+
+                </div>
+            </div>
+            <div id="main-separator"></div>
+            <div id="main-sidebar">
+                <div class="main-div main-sidebar-div">
+                    <a href="/settings/profile">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/setting-profile.png" />
+                            <div class="item-name">编辑个人资料</div>
+                        </div>
+                    </a>
+                    <a href="/settings/password">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/setting-password.png" />
+                            <div class="item-name">修改密码</div>
+                        </div>
+                    </a>
+                    <div class="main-sidebar-item no-underline selected">
+                        <img src="/static/img/icon/setting-avatar-selected.png" />
+                        <div class="item-name">更改头像</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            sourceLoad(function () {
+                    setSidebarStopHeight(0)
+                },
+                ["/static/cropper/cropper.js", "/static/cropper/tether.min.js",
+                    "/static/cropper/bootstrap.min.js", "/static/js/settings/avatar.js"
+                ],
+                ["/static/cropper/cropper.css", "/static/css/settings/settings.css",
+                    "/static/css/settings/avatar.css"
+                ])
+        }
+    </script>
+</body>
+
+</html>

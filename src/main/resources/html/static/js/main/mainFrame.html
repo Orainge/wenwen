@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.cookie.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/js/util/preload.js" charset="utf-8"></script>
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
@@ -22,17 +23,17 @@
                     <a href="/">
                         <li id="navi-tab-index">首页</li>
                     </a>
-                    <a href="/explore">
+                    <!-- <a href="/explore">
                         <li id="navi-tab-explore">发现</li>
                     </a>
                     <a href="/topic">
                         <li id="navi-tab-topic">话题</li>
-                    </a>
+                    </a> -->
                 </ul>
             </div>
             <div name="navi-separator" style="width: 60px;"></div>
             <div class="navi-search-box">
-                <input id="navi-search-input" placeholder="搜索你感兴趣的内容...">
+                <input id="navi-search-input" placeholder="搜索你的疑问...">
                 <div id="navi-search-button"></div>
             </div>
             <div name="navi-separator" style="width: 10px;"></div>
@@ -99,12 +100,12 @@
                             </div>
                         </div>
                     </div>
-                    <div id="navi-notification-box-footer">
+                    <!-- <div id="navi-notification-box-footer">
                         <a href="/notification">
                             <div id="navi-notification-box-footer-icon"></div>
                             <div id="navi-notification-box-footer-tips">查看所有通知</div>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -115,7 +116,7 @@
                     <div id="navi-user-menu-box-triangle2"></div>
                     <div class="navi-user-menu-box-item-div">
                         <ul>
-                            <a href="/profile">
+                            <a href="/people">
                                 <li>
                                     <div id="navi-user-menu-box-item-profile" class="navi-user-menu-box-item-icon">
                                     </div>我的主页
@@ -143,6 +144,23 @@
     <script type="text/javascript" src="/static/js/main/navi.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/js/main/notification.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/js/main/main.js" charset="utf-8"></script>
+    <!-- -------------以下为调试用------------- -->
+    <script>
+        window.onload = function () {
+            layer.open({
+                type: 2,
+                title: "评论",
+                move: false,
+                resize: false,
+                skin: 'layui-layer-lan',
+                area: ['500px', '700px'],
+                content: '/comment/answer.html',
+                scrollbar: false,
+                anim: 5,
+            });
+        }
+    </script>
+    <!-- -------------以上为调试用------------- -->
 </body>
 
 </html>

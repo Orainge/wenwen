@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>问问社区 | 搜索 - ${keyword}</title>
+    <script type="text/javascript" src="/static/js/main/mainFrame.js" charset="utf-8"></script>
+</head>
+
+<body style="display: none;">
+    <div id="main">
+        <div id="main-down">
+            <div>
+                <div id="main-body" class="main-div">
+                    <div class="main-title" style="display: flex; flex-direction: row;">
+                        <div id="main-tab-question" class="main-tab">相关问题</div>
+                        <div class="title-separator"></div>
+                        <div id="main-tab-user" class="main-tab">相关用户</div>
+                    </div>
+                    <div id="search-question-div" class="main-content-question">
+                        <!-- <a href="/question/1">
+                            <div class="item">
+                                <div class="title">● Python和Java二选一该学啥？</div>
+                                <span class="count">7 人回答</span>
+                            </div>
+                        </a>
+                        <div class="item">
+                            <div class="title">● 如何理解应用 Java 多线程与并发编程？</div>
+                            <span class="count">1 人回答</span>
+                        </div>
+                        <div class="item">
+                            <div class="title">● 现在学java能找到工作吗？</div>
+                            <span class="count">3 人回答</span>
+                        </div> -->
+                        <!-- <div id="load-more-question-button" class="main-content-load-more">加载更多</div>
+                        <div id="loading-question" class="main-content-loading">
+                            <img src="/static/img/loading_horizontal.gif">
+                        </div>
+                        <div class="search-result-tips">
+                            暂时没有相关结果哦
+                        </div> -->
+                    </div>
+                    <div id="search-user-div" class="main-content-user">
+                        <!-- <a href="/people/1">
+                            <div class="item">
+                                <div class="user-info-div">
+                                    <img src="/static/img/icon/avatar.png">
+                                    <div class="user-info">
+                                        <span class="nickname">昵称</span>
+                                        <span class="simple-description">一句话简介</span>
+                                    </div>
+                                </div>
+                                <span class="count">0 人关注</span>
+                            </div>
+                        </a> -->
+                        <!-- <div class="item">
+                            <div class="user-info-div">
+                                <img src="/static/img/icon/avatar.png">
+                                <div class="user-info">
+                                    <span class="nickname">昵称</span>
+                                    <span class="simple-description">一句话简介</span>
+                                </div>
+                            </div>
+                            <span>0 人关注</span>
+                        </div>
+                        <div class="item">
+                            <div class="user-info-div">
+                                <img src="/static/img/icon/avatar.png">
+                                <div class="user-info">
+                                    <span class="nickname">昵称</span>
+                                    <span class="simple-description">一句话简介</span>
+                                </div>
+                            </div>
+                            <span>0 人关注</span>
+                        </div> -->
+                        <!-- <div id="load-more-user-button" class="main-content-load-more">加载更多</div>
+                        <div id="loading-user" class="main-content-loading">
+                            <img src="/static/img/loading_horizontal.gif">
+                        </div>
+                        <div class="search-result-tips">
+                            暂时没有相关结果哦
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div id="main-separator"></div>
+            <div id="main-sidebar">
+                <div class="main-div sidebar-div">
+                    <a href="/people/to/question">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/index-question.png" />
+                            <div class="item-name">我的提问</div>
+                        </div>
+                    </a>
+                    <a href="/people/to/answer">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/index-answer.png" />
+                            <div class="item-name">我的回答</div>
+                        </div>
+                    </a>
+                    <a href="/people/to/followQuestion">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/index-follow-question.png" />
+                            <div class="item-name">我关注的问题</div>
+                        </div>
+                    </a>
+                    <a href="/people/to/followUser">
+                        <div class="main-sidebar-item no-underline">
+                            <img src="/static/img/icon/index-follow-user.png" />
+                            <div class="item-name">我关注的用户</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            sourceLoad(function () {
+                setSidebarStopHeight(0)
+                init('${keyword}')
+            }, ["/static/js/search.js"], ["/static/css/search.css"])
+        }
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.orainge.wenwen.mybatis.mapper.AnswerMapper">
+    <insert id="insertAnswer" parameterType="Answer">
+        insert into answer(content, create_time, question_id, user_id, anonymous, is_short)
+        values (#{content},#{createTime},#{questionId},#{userId},#{anonymous},#{isShort})
+        <selectKey resultType="Integer" order="AFTER" keyProperty="answerId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
 
+    <update id="updateRedisInfo" parameterType="List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update answer set count_like = #{item.count_like}
+            where answer_id = #{item.answer_id}
+        </foreach>
+    </update>
+
+    <update id="deleteAnswer" parameterType="Answer">
+        update answer set is_delete=#{isDelete}
+        where answer_id = #{answerId} and user_id = #{userId}
+    </update>
+
+
+    <select id="getAnswerByQuestionId" parameterType="Answer" resultType="Map">
+        select a.answer_id as answerId, a.content as content, a.count_commit as countCommit, a.anonymous as anonymous, a.is_short as isShort,
+        a.user_id as userId, u.nickname as nickname, u.avatar_url as avatarUrl, a.create_time as createTime,
+        u.simple_description as simpleDescription
+        from user as u, answer as a
+        where a.user_id = u.user_id and a.question_id = #{questionId} and a.is_delete = 0
+        order by a.create_time desc
+    </select>
+
+    <select id="getAnswerInfoByAnswerId" parameterType="Integer" resultType="Map">
+select q.question_id as questionId, q.title as title, a.user_id as userId, u.nickname as nickname
+        from user as u, answer as a, question as q
+        where a.answer_id = #{answerId} and a.is_delete = 0
+            and a.question_id = q.question_id and u.user_id = a.user_id
+    </select>
+
+    <select id="getAnswerById" parameterType="Answer" resultType="Map">
+        select a.answer_id as answerId, a.content as content, a.count_commit as countCommit, a.anonymous as anonymous, a.is_short as isShort,
+        a.user_id as userId, u.nickname as nickname, u.avatar_url as avatarUrl, a.create_time as createTime,
+        u.simple_description as simpleDescription
+        from user as u, answer as a
+        where a.user_id = u.user_id and a.question_id = #{questionId} and a.answer_id = #{answerId} and a.is_delete = 0
+    </select>
+
+    <select id="getAnswerUserId" parameterType="Integer" resultType="Answer">
+        select user_id from answer where answer_id = #{answerId} limit 1
+    </select>
+
+    <update id="addAnswerCommentCount" parameterType="Integer">
+        update answer set count_commit = count_commit+1 where answer_id = #{answerId}
+    </update>
+
+    <update id="deleteAnswerCommentCount" parameterType="Integer">
+         update answer, answer_comment set answer.count_commit = answer.count_commit-1
+         where answer.answer_id = answer_comment.answer_id and answer_comment.comment_id = #{commentId}
+    </update>
+
+    <select id="getAnswerIdByCommentId" parameterType="Integer" resultType="Answer">
+        select answer_id from answer_comment where comment_id = #{commentId} limit 1
+    </select>
 </mapper>

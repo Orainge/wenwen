@@ -13,11 +13,15 @@ public class Answer {
 
     private Integer countLike;
 
-    private Integer countUnlike;
+    private Integer countCommit;
 
     private Integer anonymous;
 
     private String content;
+
+    private Integer isDelete;
+
+    private Integer isShort;
 
     public Integer getAnswerId() {
         return answerId;
@@ -59,12 +63,12 @@ public class Answer {
         this.countLike = countLike;
     }
 
-    public Integer getCountUnlike() {
-        return countUnlike;
+    public Integer getCountCommit() {
+        return countCommit;
     }
 
-    public void setCountUnlike(Integer countUnlike) {
-        this.countUnlike = countUnlike;
+    public void setCountCommit(Integer countCommit) {
+        this.countCommit = countCommit;
     }
 
     public Integer getAnonymous() {
@@ -80,6 +84,22 @@ public class Answer {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Integer getIsShort() {
+        return isShort;
+    }
+
+    public void setIsShort(Integer isShort) {
+        this.isShort = isShort;
     }
 }

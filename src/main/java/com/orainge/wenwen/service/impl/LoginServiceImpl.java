@@ -1,7 +1,7 @@
 package com.orainge.wenwen.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSON;
+import com.orainge.wenwen.exception.MySQLException;
+import com.orainge.wenwen.exception.type.MySQLError;
 import com.orainge.wenwen.mybatis.entity.User;
 import com.orainge.wenwen.mybatis.mapper.UserMapper;
 import com.orainge.wenwen.service.LoginService;
@@ -30,23 +30,18 @@ public class LoginServiceImpl implements LoginService {
     public Response apiLogin(String principal, String password, Integer rememberMe, HttpServletRequest request) {
         Response response = loginUtil.login(principal, password, rememberMe == 1);
         if (response.getCode() == 0) {
-            try {
-                /* 登录成功，放入用户信息 */
-                Map<String, Object> data = new HashMap<String, Object>();
-                data.put("redirectUrl", getRedirectUrl(request));
-                data.put("userInfo", userMapper.getUserInfoByPricipal(principal));
-                response.setData(data);
-                // 更新登录时间
-                User userTime = new User();
-                userTime.setUsername(principal);
-                userTime.setEmail(principal);
-                userTime.setLastLoginTime(new Date());
-                if (userMapper.updateLoginTime(userTime) != 1) {
-                    throw new Exception("更新登录时间出现错误");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new Response(1, "服务器错误，请稍后再试");
+            /* 登录成功，放入用户信息 */
+            Map<String, Object> data = new HashMap<String, Object>();
+            data.put("redirectUrl", getRedirectUrl(request));
+            data.put("userInfo", userMapper.getUserInfoByPrincipal(principal));
+            response.setData(data);
+            // 更新登录时间
+            User userTime = new User();
+            userTime.setUsername(principal);
+            userTime.setEmail(principal);
+            userTime.setLastLoginTime(new Date());
+            if (userMapper.updateLoginTime(userTime) != 1) {
+                throw new MySQLException(MySQLError.INSERT_ERROR, "更新登录时间");
             }
         }
         return response;
@@ -71,7 +66,8 @@ public class LoginServiceImpl implements LoginService {
         if (savedRequest != null) {
             url = savedRequest.getRequestUrl();
             for (String str : WebsiteSettings.TO_REDIRECT_INDEX_URL) {
-                if (StringUtils.equals(str, url)) {
+                if (url.contains(str)) {
+                    url = "/";
                     break;
                 }
             }

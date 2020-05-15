@@ -1,0 +1,301 @@
+.people-detail {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 0 20px 0;
+    /* background: #ffffff url(/static/img/bg.png) repeat; */
+}
+
+.people-avatar-div {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+}
+
+.people-profile {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+    /* background-color: red; */
+}
+
+.people-profile .nickname {
+    font-weight: 800;
+    font-size: 25px;
+}
+
+.people-profile .gender {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #8A8A8A;
+}
+
+.people-profile .simple-description {
+    margin: 10px 0 10px 0;
+    font-size: 16px;
+    height: 30px;
+    color: #8A8A8A;
+}
+
+.people-profile .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px 0 5px 0;
+}
+
+.people-profile .item .left {
+    font-size: 18px;
+    font-weight: 800;
+    color: #8A8A8A;
+    width: 80px;
+}
+
+.people-profile .item .right {}
+
+.people-profile-edit-button-div {
+    display: flex;
+    width: 150px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#people-profile-edit-button {
+    display: none;
+}
+
+#people-profile-follow-button {
+    display: none;
+}
+
+.people-avatar-div img {
+    width: 100px;
+    height: 100px;
+}
+
+.follow-count-tips {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px 30px 15px 30px;
+}
+
+.follow-count-tips .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.follow-count-tips .item .title {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #8A8A8A;
+}
+
+.follow-count-tips .item .count {
+    font-size: 20px;
+}
+
+#follow-count-separator {
+    display: block;
+    width: 0px;
+    height: 65px;
+    margin: 0 10px 0 10px;
+    background-color: #8A8A8A;
+    box-shadow: 0 1px 1px 1px rgb(235, 235, 235);
+}
+
+.follow-question-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px 10px 10px 10px;
+    color: #8A8A8A;
+    border-style: solid;
+    border-color: rgb(238, 238, 238);
+    border-width: 0 0 1px 0;
+    margin-bottom: 10px;
+    font-size: 19px;
+}
+
+.follow-question-info:hover {
+    cursor: pointer;
+    background-color: rgba(241, 237, 237, 0.5);
+}
+
+.follow-question-info .title {
+    color: #000;
+}
+
+.people-main {}
+
+.people-main-tab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-style: solid;
+    border-color: rgb(238, 238, 238);
+    border-width: 0 0 1px 0;
+    /* background-color: red; */
+}
+
+.people-main-item {
+    display: block;
+    font-size: 16px;
+    border-style: solid;
+    /* border-bottom-color: rgb(0, 111, 180); */
+    border-bottom-color: white;
+    border-width: 0 0 3px 0;
+    padding: 10px 23px 10px 20px;
+}
+
+.people-main-item:hover {
+    cursor: pointer;
+}
+
+.people-content-follow-tab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-style: solid;
+    border-color: rgb(238, 238, 238);
+    border-width: 0 0 1px 0;
+}
+
+.people-content-follow-item {
+    display: block;
+    font-size: 14px;
+    border-style: solid;
+    border-bottom-color: white;
+    border-width: 0 0 3px 0;
+    padding: 7px 23px 7px 20px;
+}
+
+.people-content-follow-item:hover {
+    cursor: pointer;
+}
+
+.people-main-separator {
+    display: block;
+    width: 1px;
+    height: 38px;
+    background-color: rgb(238, 238, 238);
+}
+
+.people-main-content-load-more {
+    margin: 0 auto;
+    font-size: 15px;
+    padding: 15px;
+    color: #FFF;
+    padding: 10px 15px 10px 15px;
+    border-radius: 25px;
+    background-color: rgba(0, 111, 180, 0.815);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.people-main-content-load-more:hover {
+    cursor: pointer;
+    background-color: rgba(0, 111, 180, 1);
+}
+
+.login-more-loading {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.people-main-content-no-more {
+    text-align: center;
+    font-size: 15px;
+    padding: 15px;
+    color: #8A8A8A;
+}
+
+.people-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#people-content-question .item,
+#people-content-answer .item,
+#people-content-follow-question .item,
+#people-content-follow-user .item {
+    /* width: 100%; */
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-style: solid;
+    border-color: rgb(238, 238, 238);
+    border-width: 0 0 1px 0;
+    color: #000;
+}
+
+#people-content-question .item:hover,
+#people-content-answer .item:hover,
+#people-content-follow-question .item:hover,
+#people-content-follow-user .item:hover {
+    cursor: pointer;
+    background-color: rgba(241, 237, 237, 0.5);
+}
+
+#people-content-question .item .title,
+#people-content-answer .item .title,
+#people-content-follow-question .item .title {
+    font-size: 18px;
+}
+
+#people-content-follow-user .item {
+    padding: 10px 15px 10px 15px !important;
+}
+
+#people-content-follow-user .item .information-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#people-content-follow-user .item .information-div img {
+    width: 80px;
+    height: 80px;
+}
+
+#people-content-follow-user .item .information-div .information {
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-left: 10px;
+    /* background-color: red; */
+
+}
+
+#people-content-follow-user .item .information-div .information .nickname {
+    color: rgb(0, 111, 180);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+#people-content-follow-user .item .information-div .information .simple-description {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    color: #8A8A8A;
+}
+
+.first-load {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+    text-align: center;
+    font-size: 15px;
+    padding: 15px;
+    color: #8A8A8A;
+}

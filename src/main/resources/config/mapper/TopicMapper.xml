@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.orainge.wenwen.mybatis.mapper.TopicMapper">
-
+    <select id="insertTopic" parameterType="List" resultType="Topic">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            replace into topic ( topic_id, topic_name, count_question)
+            select
+            ( CASE WHEN count( a ) = 0 THEN NULL ELSE a END ),
+            ( CASE WHEN count( b ) = 0 THEN #{item.topicName} ELSE b END ),
+            ( CASE WHEN count( c ) = 0 THEN 1 ELSE ( c + 1 ) END )
+            FROM
+            (
+            SELECT t.topic_id AS a, t.topic_name AS b, t.count_question AS c FROM topic AS t
+            WHERE t.topic_name = #{item.topicName} LIMIT 1
+            ) AS newT
+        </foreach>;
+        select topic_id, topic_name from topic where
+        <foreach collection="list" item="item" index="index" open="" close="" separator=" or ">
+            topic_name = #{item.topicName}
+        </foreach>
+        limit 5
+    </select>
 </mapper>

@@ -1,9 +1,8 @@
-var nowTabName = "" // 当前 Tab 名称
 var notificationIsDisplay = false // 通知浮窗是否为显示
 var userMenuIsDisplay = false // 用户浮窗是否为显示
 var mainDivWidth = 1000 // 主框架宽度
-var notificationAddWidth = 55 // 弹出通知后需要增加的宽度
-var userMenuAddWidth = 25 // 弹出用户菜单后需要增加的宽度
+var notificationAddWidth = 100 // 弹出通知后需要增加的宽度
+var userMenuAddWidth = 40 // 弹出用户菜单后需要增加的宽度
 var notificationInAnimate = false; // notification 是否在展示动画
 var userMenuInAnimate = false; // userMenu 是否在展示动画
 var animateSpeed = 200 // 弹窗淡出的时间(毫秒)
@@ -41,8 +40,11 @@ $("#navi-ask-button").click(function () {
         title: "提问",
         move: false,
         resize: false,
+        skin: 'layui-layer-lan',
         area: ['700px', '500px'],
-        content: '/question/ask.html',
+        content: '/ask',
+        scrollbar: false,
+        anim: 5,
     });
 })
 // -------------------------提问----------------------------
@@ -168,19 +170,23 @@ $(function () {
     ]);
 })
 
+// ------------------ 加载用户头像 ------------------
+$("#navi-user-avatar").attr('src', localStorage.getItem("avatarUrl"))
+// ------------------ 加载用户头像 ------------------
+
 // -------------------以下为页面加载时调用的设置-------------------
 // 设置当前页面属于哪个Tab，不设置则不标注Tab的下划线
-// nowTab取值: index: 首页; explore: 发现; topic: 话题
+// nowTab取值: index: 首页;  topic: 话题
+// explore: 发现 暂时取消
 function naviNowTab(nowTab) {
     if (nowTab != "") {
         $("#navi-tab-" + nowTab).css("color", "#000")
         $("#navi-tab-" + nowTab).css("font-weight", "800")
         $("#navi-tab-" + nowTab).css("border-color", "rgb(0, 111, 180)")
         $("#navi-tab-" + nowTab).css("border-color", "rgb(0, 111, 180)")
-        $("#navi-search-input").val(nowTabName)
     }
 }
 
-// ------------------ 加载用户头像 ------------------
-$("#navi-user-avatar").attr('src', localStorage.getItem("avatarUrl"))
-// ------------------ 加载用户头像 ------------------
+function setSearchBoxKeyword(keyword) {
+    $("#navi-search-input").val(keyword)
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.cookie.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/answer.css" media="all">
+    <link type="text/css" href="/static/wangEditor/wangEditor-fullscreen-plugin.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="answer-main">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>输入你的回答</legend>
+        </fieldset>
+        <div id="answer-editor-full-div" class="answer-editor-div">
+            <div id="answer-editor-full" placeholder="输入你的回答"></div>
+        </div>
+        <div id="answer-editor-short-div">
+            <textarea maxlength="140" class="layui-textarea" id="answer-editor-short" style="resize: none;"
+                placeholder="请输入短回答"></textarea>
+        </div>
+        <div class="answer-submit">
+            <div class="layui-form answer-submit-button-left">
+                <button id="answer-submit-button-draft" type="button"
+                    class="layui-btn layui-btn-radius layui-btn-normal">存草稿</button>
+                <div style="width: 10px;"></div>
+                <input id="answer-submit-checkbox-is-short" type="checkbox" title="短回答" lay-filter="is-short">
+            </div>
+            <div class="layui-form answer-submit-button-right">
+                <input id="answer-submit-checkbox-anonymous" type="checkbox" title="匿名回答">
+                <div style="width: 10px;"></div>
+                <button id="answer-submit-button-submit" type="button" class="layui-btn layui-btn-radius">发布回答</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/wangEditor/wangEditor.min.js"></script>
+    <script type="text/javascript" src="/static/wangEditor/wangEditor-fullscreen-plugin.js"></script>
+    <script type="text/javascript" src="/static/js/answer.js" charset="utf-8"></script>
+    <script>
+        init('${content}', '${isShort}', '${anonymous}')
+    </script>
+</body>
+
+</html>

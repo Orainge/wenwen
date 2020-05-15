@@ -3,3 +3,9 @@ mybatis:
   type-aliases-package: com.orainge.wenwen.mybatis.entity # 设置别名，具体为数据表实体类所在的包
   config-location: classpath:config/mybatis-config.xml
   mapper-locations: classpath:config/mapper/*Mapper.xml
+# 分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql

@@ -15,7 +15,7 @@ public class AnswerComment {
 
     private Integer countLike;
 
-    private Integer countUnlike;
+    private Integer is_delete;
 
     private String content;
 
@@ -67,19 +67,19 @@ public class AnswerComment {
         this.countLike = countLike;
     }
 
-    public Integer getCountUnlike() {
-        return countUnlike;
-    }
-
-    public void setCountUnlike(Integer countUnlike) {
-        this.countUnlike = countUnlike;
-    }
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
+    }
+
+    public Integer getIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(Integer is_delete) {
+        this.is_delete = is_delete;
     }
 }

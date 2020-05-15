@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.orainge.wenwen.mybatis.mapper.AnswerCommentMapper">
+    <update id="updateRedisInfo" parameterType="List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update answer_comment set count_like = #{item.count_like}
+            where comment_id = #{item.comment_id}
+        </foreach>
+    </update>
+
+    <select id="getAnswerComment" parameterType="Integer" resultType="Map">
+        select a.comment_id as commentId,  u.user_id as userId, u.nickname as nickname, u.avatar_url as avatarUrl, a.content as content,
+            a.at_user_id as atUserId, a.is_delete as isDelete
+        from user as u, answer_comment as a
+        where u.user_id = a.user_id and a.answer_id = #{answerId}
+        and a.is_delete = 0
+        order by a.create_time desc
+    </select>
+
+    <insert id="saveAnswerComment" parameterType="Answer">
+        insert into answer_comment(user_id, answer_id, create_time, content
+        <if test="atUserId!=null">
+            ,at_user_id
+        </if>
+        )
+        values (#{userId},#{answerId},#{createTime},#{content}
+        <if test="atUserId!=null">
+            ,#{atUserId}
+        </if>
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="commentId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getNotificationInfo" parameterType="Integer" resultType="Map">
+       select q.question_id as q_id, q.title as title, u.user_id as at_user_id, u.nickname as at_username, ac.comment_id as ac_id
+       from user as u, question as q, answer as a, answer_comment as ac
+       where ac.comment_id = #{commentId} and ac.answer_id = a.answer_id and a.question_id = q.question_id
+             and ac.user_id = u.user_id
+    </select>
+
+    <update id="deleteAnswerComment" parameterType="Map">
+        update answer_comment set is_delete = 1 where user_id = #{userId} and comment_id = #{commentId}
+    </update>
+
+    <select id="getAnswerCommentById" parameterType="Integer" resultType="Map">
+         select ac.comment_id as commentId, u.user_id as userId, u.nickname as nickname, u.avatar_url as avatarUrl, ac.content as content,
+            ac.at_user_id as atUserId, ac.is_delete as isDelete
+        from user as u, answer_comment as ac, answer as a, question as q
+        where ac.comment_id = #{commentId} and q.question_id = #{questionId} and ac.answer_id = #{answerId}
+        and u.user_id = ac.user_id and ac.answer_id = a.answer_id and q.question_id = a.question_id
+        and q.is_delete = 0 and a.is_delete = 0
+        limit 1
+    </select>
+
 
 </mapper>

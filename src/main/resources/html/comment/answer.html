@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.cookie.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/comment/answer.css" media="all">
+</head>
+
+<body>
+    <div class="main-frame">
+        <div id="content">
+            <!-- <div id="show-all-comment">显示所有评论</div> -->
+            <!-- <div id="load-more">加载更多</div> -->
+            <!-- <div id="no-comment-tips">目前还没有人评论哦</div> -->
+            <!-- <div id="loading-tips"><img src="/static/img/loading_horizontal.gif"></div> -->
+            <!-- <div class="item">
+                <div class="up">
+                    <img src="/static/img/icon/avatar.png">
+                    <a href="#">
+                        <span class="nickname" id="reply-nickname-xxx">用户昵称</span>
+                    </a>
+                    <div class="at">
+                        回复
+                        <a href="#">
+                            <span class="nickname" id="reply-at-nickname-xxx">另一个</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="content">回复内容</div>
+
+                <div class="bottom">
+
+                    <div id="like-button-xxx" class="bottom-item">
+                        <img id="like-button-status-xxx" src="/static/img/icon/reply-unlike.png">
+                        <span id="like-count-xxx">0</span>
+                    </div>
+
+                    <div id="reply-button-xxx" class="bottom-item">
+                        <img src="/static/img/icon/reply-reply.png">
+                        <span>回复</span>
+                    </div>
+
+                    <div id="delete-button-xxx" class="bottom-item">
+                        <img src="/static/img/icon/reply-delete.png">
+                        <span>删除</span>
+                    </div>
+
+                </div>
+
+            </div> -->
+        </div>
+        <div class="bottom">
+            <form class="layui-form layui-form-pane" style="width: 100%;" action="">
+                <div class="layui-form-item layui-form-text">
+                    <label id="reply-tips" class="layui-form-label">评论</label>
+                    <div class="layui-input-block">
+                        <textarea id="reply-content" placeholder="请输入内容" class="layui-textarea" style="resize:none;"
+                            onkeydown="if(event.keyCode==13)return false;"></textarea>
+                    </div>
+                </div>
+            </form>
+            <div style="display: flex; flex-direction: row;">
+                <button id="reply-reset-comment" type="button"
+                    class="layui-btn layui-btn-normal layui-btn-radius">取消回复</button>
+                <button id="reply-commit-comment" type="button" class="layui-btn layui-btn-radius">提交</button>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="/static/js/comment/answer.js" charset="utf-8"></script>
+    <script>
+        if ('${commentId}'.length == 0) {
+            initComment('${questionId}', '${answerId}')
+        } else {
+            initOne('${questionId}', '${answerId}', '${commentId}')
+        }
+    </script>
+</body>
+
+</html>

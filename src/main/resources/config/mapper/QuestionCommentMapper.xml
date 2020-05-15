@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.orainge.wenwen.mybatis.mapper.QuestionCommentMapper">
-
+    <update id="updateRedisInfo" parameterType="List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update question_commit set count_like = #{item.count_like}
+            where commit_id = #{item.commit_id}
+        </foreach>
+    </update>
 </mapper>

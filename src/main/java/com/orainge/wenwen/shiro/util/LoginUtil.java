@@ -22,7 +22,6 @@ public class LoginUtil {
     public Response login(String principal, String password, boolean rememberMe) {
         int code = 5;
         Subject subject = SecurityUtils.getSubject(); // 从SecurityUtils里边创建一个 subject
-        // TODO 踢出已登录的用户
         UsernamePasswordToken token = new UsernamePasswordToken(principal, password, rememberMe); // 在认证提交前准备 token（令牌）
 
         /* 执行认证登陆 */
@@ -63,12 +62,8 @@ public class LoginUtil {
      */
     public Response logout() {
         int code = 0;
-        try {
-            Subject subject = SecurityUtils.getSubject();
-            subject.logout();
-        } catch (Exception e) {
-            code = 1;
-        }
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return new Response(code, logoutMessage[code]);
     }
 

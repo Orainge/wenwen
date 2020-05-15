@@ -3,8 +3,8 @@
 
 <head>
     <title>问问社区 | 登录</title>
-    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" charset="utf-8">
-    </script>
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.cookie.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/static/css/auth/login.css" media="all">
@@ -29,15 +29,18 @@
                     <!-- 登录框 -->
                     <div class="main-box-input-box-div">
                         <input class="layui-input main-box-input-box-login" type="text" name="principal"
-                            id="login-input-principal" maxlength="128" placeholder="用户名/邮箱">
+                            id="login-input-principal" maxlength="128"
+                            onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
+                            placeholder="用户名/邮箱">
                         <input class="layui-input main-box-input-box-login" type="password" name="password"
-                            id="login-input-password" maxlength="16" placeholder="密码">
+                            id="login-input-password" maxlength="16"
+                            onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="密码">
                     </div>
                     <div class="main-box-input-login-remember_me">
                         <div class="layui-form">
                             <!-- <label class="layui-form-label" style="font-size: 17px;">保持登录</label> -->
-                            <input id="login-input-remember_me" type="checkbox" value=""
-                                lay-skin="switch" lay-text="保持登录|保持登录">
+                            <input id="login-input-remember_me" type="checkbox" value="" lay-skin="switch"
+                                lay-text="保持登录|保持登录">
                         </div>
                     </div>
                     <div class="main-box-input-tips">
@@ -61,13 +64,21 @@
                     <!-- 注册框 -->
                     <div class="main-box-input-box-div">
                         <input class="layui-input main-box-input-box-register" type="text" name="email"
-                            id="register-input-email" placeholder="邮箱">
+                            id="register-input-email"
+                            onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="邮箱">
                         <input class="layui-input main-box-input-box-register" type="text" name="username"
-                            id="register-input-username" maxlength="16" placeholder="用户名">
+                            id="register-input-username"
+                            onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" maxlength="16"
+                            placeholder="用户名">
                         <input class="layui-input main-box-input-box-register" type="password" name="password"
-                            id="register-input-password" maxlength="16" placeholder="请输入密码">
+                            id="register-input-password" maxlength="16"
+                            onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
+                            placeholder="请输入密码 (6-16位)">
+
                         <input class="layui-input main-box-input-box-register" type="password" name="password"
-                            id="register-input-re_password" maxlength="16" placeholder="确认密码">
+                            id="register-input-re_password" maxlength="16"
+                            onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
+                            placeholder="确认密码">
                     </div>
                     <div class="main-box-input-tips">
                         <span id="register-message" style="padding-top: 7px;"></span>

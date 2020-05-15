@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>问问社区 | 问题详情</title>
+    <script type="text/javascript" src="/static/js/main/mainFrame.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.cookie.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/css/question/question.css" media="all">
+</head>
+
+<body style="display: none;">
+    <div id="main">
+        <div id="main-up">
+            <div id="question-div">
+                <div id="question-div-left">
+                    <div id="question-topic">
+                        <ul id="question-topic-list">
+                        </ul>
+                    </div>
+                    <div id="question-title"></div>
+                    <div id="question-content"></div>
+                    <div id="question-button-more"></div>
+                    <div id="question-button-div">
+                        <div class="question-button" id="question-button-answer">
+                            <img src="/static/img/icon/question_edit_answer.png" />
+                            <div id="answer-button" class="question-button-name">写回答</div>
+                        </div>
+                        <div class="question-button" id="question-button-follow">
+                            <img src="/static/img/icon/question_follow.png" />
+                            <span id="question-button-follow-tips" class="question-button-name">关注</span>
+                        </div>
+                        <!-- <div class="question-button" id="question-button-commit">
+                            <img src="/static/img/icon/question_comment.png" />
+                            <div class="question-button-name"> ${count_commit} 条评论</div>
+                        </div> -->
+                    </div>
+                </div>
+                <div id="question-div-right">
+                    <div id="question-div-right-div">
+                        <div class="question-div-right-data">
+                            关注
+                            <span id="question-count-follow">${count_follow}</span>
+                        </div>
+                        <div id="question-div-right-separator"></div>
+                        <div class="question-div-right-data">
+                            浏览
+                            <span id="question-count-browse">${count_browse}</span>
+                        </div>
+                    </div>
+                    <div id="question-edit">
+                        <div class="question-button" id="question-button-edit">
+                            <img src="/static/img/icon/question_edit_question.png" />
+                            编辑
+                        </div>
+                        <div class="question-button" id="question-button-delete">
+                            <img src="/static/img/icon/question_delete.png" />
+                            删除
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main-down">
+            <div id="main-body">
+                <div id="question-main-div" class="question-main">
+                    <!-- <div id="show-all-answer" class="main-div show-all">显示所有答案</div> -->
+                    <!-- <div id="no-answer-tips">目前还没有人回答该问题，快去写第一个答案吧！</div> -->
+                    <!-- <div class="loading-tips"><img src="/static/img/loading_horizontal.gif"></div> -->
+                    <!-- <div id="load-more-answer" class="answer-main-content-load-more">加载更多</div> -->
+
+
+
+                    <!-- <div id="item-xxx" class="item main-div">
+                        <div class="top">
+                            <a href="/people/1">
+                                <img src="/static/img/icon/avatar.png">
+                                <div class="info">
+                                    <span class="username">用户昵称</span>
+                                    <span class="simple-description">一句话简介</span>
+                                    <span class="recently-edit">编辑于 2020年 4 月 5 日</span>
+                                </div>
+                            </a>
+                        </div>
+                        匿名的
+                        <div class="top">
+                                <img src="/static/img/icon/avatar.png">
+                                <div class="info">
+                                    <span class="username">匿名</span>
+                                    <span class="simple-description"></span>
+                                    <span class="recently-edit">编辑于 2020年 4 月 5 日</span>
+                                </div>
+                        </div>
+                        <div class="content">
+                            <div style="height: 200px;background-color: #8A8A8A;">
+
+                            </div>
+                        </div>
+
+                        <div class="bottom">
+                            <div class="left">
+                                <div id="like-xx" class="button like-button">
+                                    <img src="/static/img/icon/question-answer-like.png">
+                                    <div id="like-count-xx" class="count">0</div>
+                                </div>
+                                <div id="comment-xxx" class="button">
+                                    <img src="/static/img/icon/question-answer-comment.png">
+                                    <div id="comment-count-xx" class="count">0</div>
+                                </div>
+                            </div>
+                            <div id="del-xxx" class="right">
+                                <div class="button">
+                                    <img src="/static/img/icon/question-answer-delete.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div id="item-xxx" class="item main-div">
+                        <div class="top">
+                            <a href="/people/1">
+                                <img src="/static/img/icon/avatar.png">
+                                <div class="info">
+                                    <span class="username">用户昵称</span>
+                                    <span class="simple-description">一句话简介</span>
+                                    <span class="recently-edit">编辑于 2020年 4 月 5 日</span>
+                                </div>
+                            </a>
+                            <div class="short">短回答</div>
+                        </div>
+                        <div class="content">
+                            <div style="height: 200px;background-color: #8A8A8A;">
+
+                            </div>
+                        </div>
+
+                        <div class="bottom">
+                            <div class="left">
+                                <div id="like-xx" class="button like-button">
+                                    <img src="/static/img/icon/question-answer-like.png">
+                                    <div id="like-count-xx" class="count">0</div>
+                                </div>
+                                <div id="comment-xxx" class="button">
+                                    <img src="/static/img/icon/question-answer-comment.png">
+                                    <div id="comment-count-xx" class="count">0</div>
+                                </div>
+                            </div>
+                            <div id="del-xxx" class="right">
+                                <div class="button">
+                                    <img src="/static/img/icon/question-answer-delete.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+
+
+
+
+                </div>
+            </div>
+            <div id="main-separator"></div>
+            <div id="main-sidebar">
+                <div class="main-div">
+                    <div id="question-user-profile">
+                        <div class="tips">提问者</div>
+                        <div id="question-user-profile-avatar-and-username">
+                            <img id="question-user-profile-avatar" src="/static/img/icon/avatar.png">
+                            <div id="question-user-profile-username-div" class="username"><a
+                                    id="question-user-profile-username" href=""></a></div>
+                        </div>
+                        <div id="question-user-profile-simple-description"></div>
+                    </div>
+                </div>
+                <div class="main-div">
+                    <div class="main-sidebar-item no-underline">
+                        <img src="/static/img/icon/question_create_time.png" />
+                        <div class="item-name">最后编辑时间</div>
+                        <span id="question-create-time"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/question/question.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/question/follow.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/question/answerEvent.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/question/commentEvent.js" charset="utf-8"></script>
+    <script>
+        window.onload = function () {
+            sourceLoad(function () {
+                setSidebarStopHeight(0)
+                setQuestion('${question_id}', '${title}', '${content}', '${topic_list}')
+                setProfile('${anonymous}', '${user_id}', '${nickname}', '${avatar_url}',
+                    '${simple_description}')
+                setInfo('${create_time}')
+                setOwner('${user_id}')
+                prepareShowMoreButton()
+                if ('${specificAnswer}' == '1' || '${specificAnswer}' == 1) {
+                    loadSpecificAnswer('${answerId}')
+                } else {
+                    loadAnswerFromServer()
+                }
+                if ('${questionComment}'.length != 0) {
+                    loadSpecificQuestionComment('${questionCommentId}')
+                }
+                if ('${answerCommentId}'.length != 0) {
+                    loadSpecificAnswerComment('${answerId}', '${answerCommentId}')
+                }
+            }) // ["/static/js/question/question.js"]
+        }
+    </script>
+</body>
+
+</html>

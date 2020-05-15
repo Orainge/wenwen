@@ -1,7 +1,10 @@
 package com.orainge.wenwen.util;
 
+import com.orainge.wenwen.exception.EmailException;
+import com.orainge.wenwen.exception.type.EmailError;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -10,15 +13,15 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class EmailUtil {
     private final String topicPrefix = WebsiteSettings.WEBSITE_NAME + " | ";
-    private final String activateUrlPrefix = WebsiteSettings.DOMAIN + "/auth/activate/";
-    private final String resetPasswordUrlPrefix = WebsiteSettings.DOMAIN + "/auth/resetPassword/";
-
+    private final String activateUrlPrefix = WebsiteSettings.WEBSITE_DOMAIN + "/auth/activate/";
+    private final String resetPasswordUrlPrefix = WebsiteSettings.WEBSITE_DOMAIN + "/auth/resetPassword/";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -49,18 +52,18 @@ public class EmailUtil {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(new String((WebsiteSettings.EMAIL_NICKNAME + " <" + WebsiteSettings.EMAIL + ">").getBytes("UTF-8")));
+            helper.setFrom(new String((WebsiteSettings.EMAIL_NICKNAME + " <" + WebsiteSettings.EMAIL_ADDRESS + ">").getBytes(StandardCharsets.UTF_8)));
             helper.setTo(emailAddress);
             helper.setSubject(topic);
             helper.setText(getContent(emailAddress, url, emailType), true);//重点，默认为false，显示原始html代码，无效果
             mailSender.send(message);
-            System.out.println("----------邮件发送完成----------");
-        } catch (Exception e) {
-            e.printStackTrace();
+//            System.out.println("----------邮件发送完成----------");
+        } catch (Exception ex) {
+            throw new EmailException(ex, EmailError.SEND, "邮件发送错误");
         }
     }
 
-    private String getContent(String email, String url, int emailType) {
+    private String getContent(String email, String url, int emailType) throws EmailException {
         String content = "";
         String title = "";
         String message = "";
@@ -81,13 +84,12 @@ public class EmailUtil {
             data.put("email", email);
             data.put("message", message);
             data.put("url", url);
-            data.put("indexUrl", WebsiteSettings.DOMAIN);
-            String templateName = "registerTemplate.html";
+            data.put("indexUrl", WebsiteSettings.WEBSITE_DOMAIN);
+            String templateName = "emailTemplate.html";
             Template template = freeMarkerConfigurer.getConfiguration().getTemplate(templateName);
             content = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("error!");
+            throw new EmailException(e, "获取模板内容出错");
         }
         return content;
     }

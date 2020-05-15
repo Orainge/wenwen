@@ -4,8 +4,6 @@
 spring:
   profiles:
     active: server, database, freemaker, mail
-    #main:
-    # allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
 
 ## 使用日志工具 Log4j2
 logging:

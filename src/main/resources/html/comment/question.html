@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/util/jquery.cookie.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/comment/question.css" media="all">
+</head>
+
+<body>
+    <div class="main-frame">
+        <div id="content">
+            <div class="item">
+                <div class="up">
+                    <img src="/static/img/icon/avatar.png">
+                    <a href="#">
+                        <span>用户昵称</span>
+                    </a>
+                    <!-- <div class="at">
+                        回复
+                        <a href="#">
+                            <span>另一个</span>
+                        </a>
+                    </div> -->
+                </div>
+                <div class="content">
+                    回复内容
+                </div>
+                <div class="bottom">
+                    <div id="like-button-xxx" class="bottom-item">
+                        <img src="/static/img/icon/reply-like.png">
+                        <span id="like-count-xxx">15</span>
+                    </div>
+                    <!-- <div id="reply-button-xxx" class="bottom-item">
+                        <img src="/static/img/icon/reply-reply.png">
+                        <span>回复</span>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <form class="layui-form layui-form-pane" style="width: 100%;" action="">
+                <div class="layui-form-item layui-form-text">
+                    <label id="reply-tips" class="layui-form-label">评论</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" class="layui-textarea" style="resize:none;"></textarea>
+                    </div>
+                </div>
+            </form>
+            <div style="display: flex; flex-direction: row;">
+                <!-- <button id="reset-comment" type="button" class="layui-btn layui-btn-normal layui-btn-radius">重置</button> -->
+                <button id="commit-comment" type="button" class="layui-btn layui-btn-radius">提交</button>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="/static/js/comment/comment.js" charset="utf-8"></script>
+    <script>
+        init('${questionId}')
+    </script>
+</body>
+
+</html>

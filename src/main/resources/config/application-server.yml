@@ -4,3 +4,7 @@ server:
   # 自定义项目根目录 不配置默认为域名直接访问
   # servlet:
   #   context-path:
+#  servlet:
+#    session:
+#      cookie:
+#        max-age: #{7 * 24 * 60 * 60}

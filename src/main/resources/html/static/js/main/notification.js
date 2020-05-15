@@ -1,4 +1,3 @@
-var n_userID = undefined // 从 COOKIE 获取 userID
 var n_retryInterval = 3 // 获取通知失败后重试的间隔时间(秒)
 var n_retryTimes = 3 // 获取通知失败后重试的次数
 
@@ -11,12 +10,12 @@ var n_apiName = {
 
 // -------- URL --------
 var n_URL = {
-    user: "/user/",
+    user: "/people/",
     collection: "/collection/",
     question: "/question/",
-    question_commit: "/question/commit/",
+    question_commit: "/questionComment/",
     answer: "/answer/",
-    answer_commit: "/answer/commit/"
+    answer_commit: "/answerComment/"
 }
 
 // ----------------- 获取通知 -----------------
@@ -57,7 +56,6 @@ function loadFromServer(from, isScroll) {
         url: n_apiName[from],
         type: "get",
         data: {
-            userID: n_userID,
             page: n_nextPage[from],
         },
         success: function (response) {
@@ -74,6 +72,7 @@ function loadFromServer(from, isScroll) {
                 }
                 updateTotalHeight(from)
                 if (response.data.end == 1) {
+                    appendEndLoad(from, data)
                     n_nextPage[from] = -1
                 } else {
                     n_nextPage[from] = n_nextPage[from] + 1
@@ -86,7 +85,52 @@ function loadFromServer(from, isScroll) {
         error: function () {
             lFS_fail(from, isScroll)
         }
-    });
+    })
+}
+
+// 没有更多数据了，需要附加结束提示
+// from: 谁在加载；可选："feed", "message", "like"
+function appendEndLoad(from, data) {
+    if (from == "feed") {
+        var feedTips
+        if (n_nextPage.feed == 1 && (data == undefined || data.length == 0)) {
+            feedTips = '你还没有收到任何消息哦'
+        } else {
+            feedTips = '没有更多信息了'
+        }
+        feedBoxS.append('<div id="success-end-loading-feed" class="end-loading">' + feedTips + '</div>')
+        if (n_nextPage.feed == 1) {
+            feedBoxS.scrollTop(0)
+        } else {
+            feedBoxS.scrollTop(feedBoxS.scrollTop() + $("#success-end-loading-feed").outerHeight(true))
+        }
+    } else if (from == "message") {
+        var messageTips
+        if (n_nextPage.message == 1 && (data == undefined || data.length == 0)) {
+            messageTips = '你还没有收到任何消息哦'
+        } else {
+            messageTips = '没有更多信息了'
+        }
+        messageBoxS.append('<div id="success-end-loading-message" class="end-loading">' + messageTips + '</div>')
+        if (n_nextPage.message == 1) {
+            messageBoxS.scrollTop(0)
+        } else {
+            messageBoxS.scrollTop(messageBoxS.scrollTop() + $("#success-end-loading-message").outerHeight(true))
+        }
+    } else if (from == "like") {
+        var likeTips
+        if (n_nextPage.like == 1 && (data == undefined || data.length == 0)) {
+            likeTips = '你还没有收到任何消息哦'
+        } else {
+            likeTips = '没有更多信息了'
+        }
+        likeBoxS.append('<div id="success-end-loading-like" class="end-loading">' + likeTips + '</div>')
+        if (n_nextPage.like == 1) {
+            likeBoxS.scrollTop(0)
+        } else {
+            likeBoxS.scrollTop(likeBoxS.scrollTop() + $("#success-end-loading-like").outerHeight(true))
+        }
+    }
 }
 
 // 加载失败
@@ -98,7 +142,6 @@ function lFS_fail(from, isScroll) {
             $("#navi-notification-box-loading-" + from).css("display", "none")
             $("#navi-notification-box-loading-fail-" + from).css("display", "flex")
         } else {
-            // TODO 非第一页
             $("#success-loading-" + from).remove()
             updateTotalHeight(from)
         }
@@ -117,25 +160,37 @@ function lFS_fail(from, isScroll) {
 function pFeedData(data) {
     $.each(data, function (i, item) {
         var t = item.type
-        var p = item.parm
+        var p = item.param
         var s = ""
-        s += '<div>'
-        s += '<span><a href="' + n_URL.user + p[0] + '">' + p[1] + '</a></span>'
-        if (t == 0) {
-            s += " 提出"
-        } else if (t == 1) {
-            s += " 回答"
-        } else if (t == 2) {
-            s += " 关注"
+        if (t == 4) {
+            s += '<div>'
+            s += '你关注的问题有了新回答 '
+            s += '<span><a href="' + n_URL.question + p[0] + n_URL.answer + p[2] + '">' + p[1] + '</a></span>'
+            s += '</div>'
         } else if (t == 3) {
-            s += " 点赞"
+            // 点赞某回答
+            s += '<div>'
+            s += '<span><a href="' + n_URL.user + p[0] + '">' + p[1] + '</a></span>'
+            s += ' 赞同了回答 '
+            s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer + p[4] + '">' + p[3] + '</a></span>'
+            s += '</div>'
+        } else {
+            s += '<div>'
+            s += '<span><a href="' + n_URL.user + p[0] + '">' + p[1] + '</a></span>'
+            if (t == 0) {
+                s += " 提出"
+            } else if (t == 1) {
+                s += " 回答"
+            } else if (t == 2) {
+                s += " 关注"
+            }
+            s += '了问题 '
+            s += '<span><a href="' + n_URL.question + p[2]
+            if (t == 1)
+                s += n_URL.answer + p[4]
+            s += '">' + p[3] + '</a></span>'
+            s += '</div>'
         }
-        s += '了问题 '
-        s += '<span><a href="' + n_URL.question + p[2]
-        if (t == 1)
-            s += n_URL.answer + p[4]
-        s += '">' + p[3] + '</a></span>'
-        s += '</div>'
         feedBoxS.append(s)
     })
     if (n_nextPage.feed == 1) {
@@ -148,40 +203,46 @@ function pFeedData(data) {
 function pMessageData(data) {
     $.each(data, function (i, item) {
         var t = item.type
-        var st = item.s_type
-        var p = item.parm
+        var st = item.subType
+        var p = item.param
         var s = ""
-        s += '<div>'
-        s += '<span><a href="' + n_URL.user + p[0] + '">' + p[1] + '</a></span>'
-        if (t == 0) {
-            if (st == 0) {
-                s += ' 关注了你'
-            } else if (st == 1) {
-                s += ' 关注了你的收藏夹 '
-                s += '<span><a href="' + n_URL.collection + p[2] + '">' + p[3] + '</a></span>'
-            } else if (st == 2) {
-                s += ' 关注了你的问题 '
-                s += '<span><a href="' + n_URL.question + p[2] + '">' + p[3] + '</a></span>'
-            }
-        } else if (t == 1) {
-            if (st == 0) {
-                s += ' 评论了你的问题 '
-                s += '<span><a href="' + n_URL.question + p[2] + n_URL.question_commit + p[4] + '">' + p[3] + '</a></span>'
-            } else if (st == 1) {
-                s += ' 评论了 '
-                s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer_commit + p[4] + '">' + p[3] + '</a></span>'
-                s += ' 中你的回答'
-            } else if (st == 2) {
-                s += ' 回复了 '
-                s += '<span><a href="' + n_URL.question + p[2] + n_URL.question_commit + p[4] + '">' + p[3] + '</a></span>'
-                s += ' 中你的评论'
-            } else if (st == 3) {
-                s += ' 回复了 '
-                s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer_commit + p[4] + '">' + p[3] + '</a></span>'
-                s += ' 中你的回答的评论'
+        if (t != 2) {
+            s += '<div>'
+            s += '<span><a href="' + n_URL.user + p[0] + '">' + p[1] + '</a></span>'
+            if (t == 0) {
+                if (st == 0) {
+                    s += ' 关注了你'
+                } else if (st == 2) {
+                    s += ' 关注了你的问题 '
+                    s += '<span><a href="' + n_URL.question + p[2] + '">' + p[3] + '</a></span>'
+                }
+            } else if (t == 1) {
+                if (st == 0) {
+                    s += ' 评论了你的问题 '
+                    s += '<span><a href="' + n_URL.question + p[2] + n_URL.question_commit + p[4] + '">' + p[3] + '</a></span>'
+                } else if (st == 1) {
+                    s += ' 评论了 '
+                    s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer_commit + p[4] + '">' + p[3] + '</a></span>'
+                    s += ' 中你的回答'
+                } else if (st == 2) {
+                    s += ' 回复了 '
+                    s += '<span><a href="' + n_URL.question + p[2] + n_URL.question_commit + p[4] + '">' + p[3] + '</a></span>'
+                    s += ' 中你的评论'
+                } else if (st == 3) {
+                    s += ' 回复了 '
+                    s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer_commit + p[4] + '">' + p[3] + '</a></span>'
+                    s += ' 中你的回答的评论'
+                }
             }
         } else if (t == 2) {
             if (st == 0) {
+                s += '<div><span>'
+                if (p[0] == '-1' || p[0] == -1) {
+                    s += '<a href="#">' + p[1] + '</a>'
+                } else {
+                    s += '<a href="' + n_URL.user + p[0] + '">' + p[1] + '</a>'
+                }
+                s += '</span>'
                 s += ' 回答了你的问题 '
                 s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer + p[4] + '">' + p[3] + '</a></span>'
             }
@@ -197,9 +258,10 @@ function pMessageData(data) {
 
 // 处理 like 数据
 function pLikeData(data) {
+    console.log(data)
     $.each(data, function (i, item) {
         var t = item.type
-        var p = item.parm
+        var p = item.param
         var s = ""
         s += '<div>'
         s += '<span><a href="' + n_URL.user + p[0] + '">' + p[1] + '</a></span>'
@@ -211,12 +273,12 @@ function pLikeData(data) {
             s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer + p[4] + '">' + p[3] + '</a></span>'
         } else if (t == 2) {
             s += ' 赞同了你在 '
-            s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer_commit + p[4] + '">' + p[3] + '</a></span>'
+            s += '<span><a href="' + n_URL.question + p[2] + n_URL.question_commit + p[4] + '">' + p[3] + '</a></span>'
             s += ' 中的评论'
         } else if (t == 3) {
             s += ' 赞同了你在 '
-            s += '<span><a href="' + n_URL.question + p[2] + n_URL.question_commit + p[4] + '">' + p[3] + '</a></span>'
-            s += ' 中的回答'
+            s += '<span><a href="' + n_URL.question + p[2] + n_URL.answer_commit + p[4] + '">' + p[3] + '</a></span>'
+            s += ' 中的回答的评论'
         }
         s += '</div>'
         likeBoxS.append(s)
@@ -389,10 +451,8 @@ var boxHeight = {
 function updateTotalHeight(from) {
     boxHeight[from] = 0
     $("#navi-notification-box-success-" + from + " div").each(function () {
-        // console.log($(this).outerHeight(true))
         boxHeight[from] += $(this).outerHeight(true)
     })
-    // console.log("boxHeight[" + from + "]: " + boxHeight[from])
 }
 
 // 通知里面滚动到底部自动加载
@@ -440,17 +500,4 @@ function n_showNotification() {
         loadLike()
     }
 }
-
-// // 点击的区域属于弹窗内部的，不执行关闭操作
-// function n_notToClosePopArea(target) {
-//     var list = [
-//         "#navi-notification-box-div",
-//     ]
-//     for (var i = 0; i < list.length; i++) {
-//         if (target.closest(list[i]).length != 0) {
-//             return true
-//         }
-//     }
-//     return false
-// }
 // ------------- 在 navi.js 中执行 -------------

@@ -1,27 +1,36 @@
 package com.orainge.wenwen.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.orainge.wenwen.controller.util.ControllerHelper;
+import com.orainge.wenwen.exception.NullRequestParametersException;
+import com.orainge.wenwen.service.IndexService;
 import com.orainge.wenwen.util.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.Map;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/")
-    public String index() {
+    @Autowired
+    private IndexService indexService;
+
+    @GetMapping("/")
+    public String toIndex() {
         return "index";
     }
 
-    @RequestMapping("/dot")
-    public String dotAndLine() {
-        return "dot_and_line";
+
+    @GetMapping("/index/topView")
+    @ResponseBody
+    public Response apiTopView(Integer nextPage) throws NullRequestParametersException {
+        ControllerHelper.validVariableIsExist(nextPage, "nextPage");
+        return indexService.apiTopView(nextPage);
+    }
+
+    @GetMapping("/index/topAnswer")
+    @ResponseBody
+    public Response apiTopAnswer(Integer nextPage) throws NullRequestParametersException {
+        ControllerHelper.validVariableIsExist(nextPage, "nextPage");
+        return indexService.apiTopAnswer(nextPage);
     }
 }

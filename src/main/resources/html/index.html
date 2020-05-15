@@ -2,29 +2,69 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>问问社区 | 首页</title>
     <script type="text/javascript" src="/static/js/main/mainFrame.js" charset="utf-8"></script>
-    <style>
-        body {
-            display: none;
-        }
-    </style>
+    <script type="text/javascript" src="/static/js/util/jquery.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/css/index.css" media="all">
 </head>
 
-<body>
+<body style="display: none;">
     <div id="main">
-        <div id="main-body">
-            <div style="height: 2000px;">
-                <p>dddd</p>
+        <div id="main-down">
+            <div>
+                <div id="main-body" class="main-div">
+                    <div class="main-title" style="display: flex; flex-direction: row;">
+                        <div id="index-tab-view" class="main-tab">浏览最多</div>
+                        <div class="title-separator"></div>
+                        <div id="index-tab-answer" class="main-tab">回答最多</div>
+                    </div>
+                    <div id="index-view-div" class="index-div">
+                        <!-- <a href="/question/1">
+                            <div class="item">
+                                <div class="title">● 1Python和Java二选一该学啥？</div>
+                                <span class="count"> 6 人回答</span>
+                            </div>
+                        </a> -->
+                    </div>
+                    <div id="index-answer-div" class="index-div">
+                        <!-- <a href="/question/1">
+                            <div class="item">
+                                <div class="title">● 1Python和Java二选一该学啥？</div>
+                                <span class="count"> 6 人回答</span>
+                            </div>
+                        </a> -->
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="main-separator"></div>
-        <div id="main-sidebar">
-            <div class="main-div" style="height: 100px;">
-                ddddd
-            </div>
-            <div class="main-div" style="height: 300px;">
-                d
+            <div id="main-separator"></div>
+            <div id="main-sidebar">
+                <div class="main-div sidebar-div">
+                    <a href="/people/to/question">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/index-question.png" />
+                            <div class="item-name">我的提问</div>
+                        </div>
+                    </a>
+                    <a href="/people/to/answer">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/index-answer.png" />
+                            <div class="item-name">我的回答</div>
+                        </div>
+                    </a>
+                    <a href="/people/to/followQuestion">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/index-follow-question.png" />
+                            <div class="item-name">我关注的问题</div>
+                        </div>
+                    </a>
+                    <a href="/people/to/followUser">
+                        <div class="main-sidebar-item no-underline">
+                            <img src="/static/img/icon/index-follow-user.png" />
+                            <div class="item-name">我关注的用户</div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -32,9 +72,9 @@
     <script>
         window.onload = function () {
             sourceLoad(function () {
-                setSidebarStopHeight(100)
+                setSidebarStopHeight(0)
                 naviNowTab("index")
-            })
+            }, ["/static/js/index.js"], ["/static/css/index.css"])
         }
     </script>
 </body>

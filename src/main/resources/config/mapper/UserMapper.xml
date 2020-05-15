@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.orainge.wenwen.mybatis.mapper.UserMapper">
     <!-- 登录时获取的用户信息 -->
-    <select id="getUserAuthInfoByPricipal" parameterType="String" resultType="User">
+    <select id="getUserAuthInfoByPrincipal" parameterType="String" resultType="User">
         select username, email, password, user_status from user where (username = #{principal} or email = #{principal}) and (user_status != 1)
     </select>
 
     <!-- 获取要保存在浏览器的用户信息 -->
-    <select id="getUserInfoByPricipal" parameterType="String" resultType="User">
+    <select id="getUserInfoByPrincipal" parameterType="String" resultType="User">
         select user_id, nickname, avatar_url from user where (username = #{principal} or email = #{principal}) and user_status = 0
     </select>
 
@@ -42,8 +42,58 @@
     </update>
 
     <!-- 修改用户密码 ByOldPassword -->
-    <update id="changePasswordByOldPassword" parameterType="HashMap">
-        update user set password = #{password} where (email = #{email} and user_status = 0 and password = #{oldPassword})
+    <update id="changePasswordByOldPassword" parameterType="Map">
+        update user set password = #{newPassword} where (user_id = #{userId} and user_status = 0 and password = #{oldPassword})
     </update>
 
+    <!-- 修改用户头像 -->
+    <update id="setAvatar" parameterType="User">
+        update user set avatar_url = #{avatarUrl} where (user_id = #{userId} and user_status = 0)
+    </update>
+
+    <!-- 获取用户资料 -->
+    <select id="getProfile" parameterType="String" resultType="User">
+        select nickname, gender, simple_description, address, industry, career, education, full_description from user where user_id = #{userId} and user_status = 0
+    </select>
+
+    <!-- 修改用户资料 -->
+    <update id="setProfile" parameterType="User">
+        update user set nickname = #{nickname}, gender = #{gender}, simple_description = #{simpleDescription}, address = #{address},
+        industry = #{industry}, career = #{career}, education = #{education}, full_description = #{fullDescription}
+        where user_id = #{userId} and user_status = 0
+    </update>
+
+    <!-- 获取用户资料（个人主页） -->
+    <select id="getPeople" parameterType="String" resultType="User">
+        select nickname, gender, simple_description, address, industry, career, education,
+        full_description, avatar_url, count_following, count_follower
+        from user where user_id = #{peopleId} and user_status = 0
+    </select>
+
+    <!-- search -->
+    <select id="searchUser" parameterType="String" resultType="User">
+       SELECT user_id, nickname, avatar_url, simple_description, count_follower,
+        MATCH (nickname) AGAINST (#{keyword} IN NATURAL LANGUAGE MODE) AS score
+        FROM user
+        WHERE MATCH (nickname) AGAINST (#{keyword} IN NATURAL LANGUAGE MODE)
+        ORDER BY score DESC
+    </select>
+
+    <update id="updateRedisInfo" parameterType="List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update user set
+            <if test="item.count_follower!=null">
+                count_follower=#{item.count_follower},
+            </if>
+            <if test="item.count_following!=null">
+                count_following = #{item.count_following}
+            </if>
+            where user_id = #{item.user_id}
+        </foreach>
+    </update>
+
+    <!-- 获取昵称 -->
+    <select id="getNickname" parameterType="Integer" resultType="String">
+       SELECT nickname FROM user WHERE user_id = #{userId}
+    </select>
 </mapper>

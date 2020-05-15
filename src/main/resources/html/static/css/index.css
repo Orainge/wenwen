@@ -1,0 +1,132 @@
+.sidebar-div a img {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.sidebar-div .main-sidebar-item:hover {
+    cursor: pointer;
+}
+
+.sidebar-div .item-name {
+    font-size: 17px !important;
+}
+
+#main-body .main-title {
+    color: rgb(0, 111, 180);
+    /* width: 100%; */
+    font-size: 18px;
+    font-weight: 800;
+    padding: 20px 20px 20px 20px;
+    /* background-color: red; */
+    border-width: 0 0 1px 0;
+    border-color: rgb(240, 242, 247);
+    border-style: solid;
+}
+
+.main-title .title-separator {
+    display: block;
+    width: 0px;
+    margin: 0 10px 0 10px;
+    background-color: gray;
+    box-shadow: 0 1px 1px 1px rgb(235, 235, 235);
+    height: 30px;
+}
+
+.main-tab:hover {
+    cursor: pointer;
+}
+
+#index-tab-view {
+    margin-right: 15px;
+    color: black;
+    padding-bottom: 10px;
+    border-width: 0 0 4px 0;
+    border-style: solid;
+    border-color: rgb(0, 111, 180);
+}
+
+#index-tab-answer {
+    margin-left: 15px;
+    color: #8a8a8a;
+    padding-bottom: 10px;
+    border-width: 0 0 4px 0;
+    border-style: solid;
+    border-color: white;
+    font-weight: 800;
+}
+
+.index-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.index-div .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px 10px 20px;
+    /* margin: 10px 0 0 0; */
+    /* background-color: red; */
+    border-width: 0 0 1px 0;
+    border-color: rgb(240, 242, 247);
+    border-style: solid;
+}
+
+.index-div .item:hover {
+    cursor: pointer;
+}
+
+.index-div .item:hover .title {
+    color: rgb(0, 61, 142);
+}
+
+.index-div .item .title {
+    color: #000;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.index-div .item .count {
+    color: #8a8a8a;
+    font-size: 15px;
+}
+
+#index-answer-div{
+    display: none;
+}
+
+.index-result-tips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    color: #8A8A8A;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+.index-content-load-more {
+    margin: 0 auto;
+    font-size: 15px;
+    padding: 15px;
+    color: #FFF;
+    padding: 10px 15px 10px 15px;
+    border-radius: 25px;
+    background-color: rgba(0, 111, 180, 0.815);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.index-content-load-more:hover {
+    cursor: pointer;
+}
+
+.index-content-loading {
+    margin: 0 auto;
+    padding: 15px;
+    padding: 10px 15px 10px 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

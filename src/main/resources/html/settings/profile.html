@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>问问社区 | 编辑个人资料</title>
+    <script type="text/javascript" src="/static/js/main/mainFrame.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/static/css/settings/settings.css" media="all">
+</head>
+
+<body style="display: none;">
+    <div id="main">
+        <div id="main-down">
+            <div id="main-body">
+                <div class="main-div modify-profile">
+                    <div class="modify-profile-title">编辑个人资料</div>
+                    <form class="layui-form layui-form-pane modify-profile-form-customize"
+                        lay-filter="modify-profile-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">昵称</label>
+                            <div class="layui-input-inline">
+                                <input value="${nickname}" type="text" name="nickname" autocomplete="off"
+                                    class="layui-input" maxlength="32" placeholder="请输入昵称"
+                                    onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-input-inline">
+                                <select id="gender" name="gender">
+                                    <option value="0" selected="">保密</option>
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">一句话介绍</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="${simpleDescription}" name="simpleDescription"
+                                    autocomplete="off" class="layui-input" maxlength="50" placeholder="请输入一句话介绍">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">居住地</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="${address}" name="address" autocomplete="off"
+                                    class="layui-input" maxlength="50" placeholder="请输入居住地">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">所在行业</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="${industry}" name="industry" autocomplete="off"
+                                    class="layui-input" maxlength="16" placeholder="请输入所在行业">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">职业经历</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="${career}" name="career" autocomplete="off"
+                                    class="layui-input" maxlength="128" placeholder="请输入职业经历">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">教育经历</label>
+                            <div class="layui-input-inline">
+                                <input type="text" value="${education}" name="education" autocomplete="off"
+                                    class="layui-input" maxlength="128" placeholder="请输入教育经历">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">个人简介</label>
+                            <div class="layui-input-block">
+                                <textarea maxlength="128" class="layui-textarea" name="fullDescription"
+                                    style="resize: none;" placeholder="请输入个人简介">${fullDescription}</textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modify-profile-tips-div">
+                        <span id="modify-profile-tips-text"></span>
+                        <div id="modify-profile-loading" style="display: none;">
+                            <img src="/static/img/loading.gif">
+                        </div>
+                    </div>
+                    <button id="confirm-button">提交</button>
+                </div>
+            </div>
+            <div id="main-separator"></div>
+            <div id="main-sidebar">
+                <div class="main-div main-sidebar-div">
+                    <div class="main-sidebar-item selected">
+                        <img src="/static/img/icon/setting-profile-selected.png" />
+                        <div class="item-name">编辑个人资料</div>
+                    </div>
+                    <a href="/settings/password">
+                        <div class="main-sidebar-item">
+                            <img src="/static/img/icon/setting-password.png" />
+                            <div class="item-name">修改密码</div>
+                        </div>
+                    </a>
+                    <a href="/settings/avatar">
+                        <div class="main-sidebar-item no-underline">
+                            <img src="/static/img/icon/setting-avatar.png" />
+                            <div class="item-name">更改头像</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            sourceLoad(function () {
+                    setSidebarStopHeight(0)
+                    document.getElementById("gender").options['${gender}'].selected = true
+                },
+                ["/static/js/settings/profile.js"],
+                ["/static/css/settings/settings.css", "/static/css/settings/profile.css"])
+        }
+    </script>
+</body>
+
+</html>

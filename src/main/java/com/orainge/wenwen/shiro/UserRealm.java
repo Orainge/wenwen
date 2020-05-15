@@ -24,7 +24,7 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String principal = token.getPrincipal().toString();
         String password = new String((char[]) token.getCredentials()); // 传过来的密码已经是加了密的
-        User userLoginInfo = userMapper.getUserAuthInfoByPricipal(principal);
+        User userLoginInfo = userMapper.getUserAuthInfoByPrincipal(principal);
 
         if (userLoginInfo == null) {
             /* 用户不存在 */

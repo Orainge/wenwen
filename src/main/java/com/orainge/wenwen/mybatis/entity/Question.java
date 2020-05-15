@@ -13,11 +13,19 @@ public class Question {
 
     private Integer countBrowse;
 
+    private Integer countCommit;
+
+    private Integer countAnswer;
+
     private Date createTime;
 
     private Integer anonymous;
 
     private String content;
+
+    private String topicList;
+
+    private Integer isDelete;
 
     public Integer getQuestionId() {
         return questionId;
@@ -32,7 +40,7 @@ public class Question {
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public Integer getUserId() {
@@ -59,6 +67,14 @@ public class Question {
         this.countBrowse = countBrowse;
     }
 
+    public Integer getCountCommit() {
+        return countCommit;
+    }
+
+    public void setCountCommit(Integer countCommit) {
+        this.countCommit = countCommit;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -80,6 +96,30 @@ public class Question {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
+    }
+
+    public String getTopicList() {
+        return topicList;
+    }
+
+    public void setTopicList(String topicList) {
+        this.topicList = topicList;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Integer getCountAnswer() {
+        return countAnswer;
+    }
+
+    public void setCountAnswer(Integer countAnswer) {
+        this.countAnswer = countAnswer;
     }
 }

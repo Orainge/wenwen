@@ -9,7 +9,7 @@ public class Response {
     private Object data;
 
     public Response() {
-        code = null;
+        code = 0;
         message = null;
         data = null;
     }
@@ -23,17 +23,17 @@ public class Response {
         this.message = message;
     }
 
-    public Response(int code, String message, Object data) {
+    public Response(Integer code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

@@ -15,6 +15,8 @@ public class QuestionComment {
 
     private Integer countLike;
 
+    private Integer isDelete;
+
     private String content;
 
     public Integer getCommentId() {
@@ -70,6 +72,14 @@ public class QuestionComment {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 }
