@@ -50,7 +50,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
+            <version>8.0.28</version>
             <!-- MySQL数据库驱动，无需参与编译 -->
             <scope>runtime</scope>
         </dependency>
